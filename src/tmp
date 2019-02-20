@@ -1,0 +1,10 @@
+sentid	sentence	es
+the_developer.unknown.0.female.txt	The developer argued with the designer because she did not like the design.	El desarrollador discutió con el diseñador porque no le gustaba el diseño.
+the_designer.unknown.1.male.txt	The developer argued with the designer because his idea cannot be implemented.	El desarrollador discutió con el diseñador porque su idea no se puede implementar.
+the_mechanic.unknown.0.female.txt	The mechanic gave the clerk a present because she won the lottery.	El mecánico le dio un regalo al empleado porque ella ganó la lotería.
+the_clerk.unknown.1.male.txt	The mechanic gave the clerk a present because it was his birthday.	El mecánico le dio un regalo al empleado porque era su cumpleaños.
+the_mover.unknown.0.female.txt	The mover said thank you to the housekeeper because she is grateful.	La compañía de mudanzas le dio las gracias al ama de llaves porque está agradecida.
+the_housekeeper.unknown.1.male.txt	The mover said thank you to the housekeeper because he cleaned the truck.	La compañía de mudanzas le dio las gracias al ama de llaves porque limpió el camión.
+the_analyst.unknown.1.female.txt	The assistant scanned documents for the analyst because she asked.	La asistente escaneaba los documentos en busca del analista porque ella le preguntaba.
+the_assistant.unknown.0.male.txt	The assistant scanned documents for the analyst because he knows how to use the scan machine.	El asistente examinó los documentos en busca del analista porque sabe cómo usar la máquina de escaneo.
+the_chief.unknown.0.female.txt	The chief gave the housekeeper a tip because she was satisfied.	El jefe le dio una propina al ama de llaves porque estaba satisfecha.
