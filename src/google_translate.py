@@ -34,8 +34,8 @@ def google_translate(sents, target_language, source_language = None):
                                                   source_language = source_language,
                                                   target_language = target_language)
 
-    pdb.set_trace()
-    trans["translatedText"] = html.unescape(trans["translatedText"])
+    for out_dict in trans:
+        out_dict["translatedText"] = html.unescape(out_dict["translatedText"])
     return trans
 
 def chunks(l, n):
@@ -45,14 +45,13 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
-
 def batch_translate(lines, tgt_lang, src_lang = None):
     """
     Translate a list of sentences.
     Take care of batching.
     """
     translations_dicts = []
-    for chunk in tqdm(chunks(lines, BATCH_SIZE), desc=f"size {BATCH_SIZE} chunks"):
+    for chunk in tqdm(list(chunks(lines, BATCH_SIZE)), desc=f"size {BATCH_SIZE} chunks"):
         for out_dict in google_translate(chunk, tgt_lang, src_lang):
             translations_dicts.append(out_dict)
     return translations_dicts
@@ -74,7 +73,7 @@ if __name__ == "__main__":
     out_dicts = batch_translate(lines, tgt_lang, src_lang)
     with open(out_fn, "w", encoding = "utf8") as fout:
         for out_dict in out_dicts:
-            fout.write("{}\t{}\n".format(out_dict["input"],
-                                         out_dict["translatedText"]))
+            fout.write("{} ||| {}\n".format(out_dict["input"],
+                                            out_dict["translatedText"]))
 
     logging.info("DONE")

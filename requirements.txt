@@ -1,0 +1,3 @@
+docopt
+spacy
+google-cloud-translate

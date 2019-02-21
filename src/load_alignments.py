@@ -96,7 +96,7 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level = logging.INFO)
 
-    gender_predictor = LANGAUGE_PREDICTOR[lang]
+    gender_predictor = SpacyPredictor(lang)
 
     ds = [line.strip().split("\t") for line in open(ds_fn, encoding = "utf8")]
     bitext = [line.strip().split(" ||| ")
