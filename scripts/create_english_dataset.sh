@@ -8,6 +8,6 @@ python convert_winobias_to_winogender.py --in=../data/winobias.all.txt --out=../
 python fix_dataset.py --in=../../winogender-schemas/data/all_sentences.tsv --out=../data/aggregates/en_winogender.txt
 
 # Concat
-cat ../data/aggregates/en_winogender.txt ../data/aggregates/en_winobias.txt > ../data/aggregates/en.txt
+cat ../data/aggregates/en_winobias.txt ../data/aggregates/en_winogender.txt > ../data/aggregates/en.txt
 
 echo "DONE!"
