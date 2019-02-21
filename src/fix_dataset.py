@@ -16,6 +16,8 @@ import string
 
 #=-----
 
+PUNCT = '!,.;?'
+
 if __name__ == "__main__":
     # Parse command line arguments
     args = docopt(__doc__)
@@ -27,8 +29,8 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level = logging.INFO)
 
-    translator = str.maketrans(string.punctuation,
-                               ' '*len(string.punctuation)) #map punctuation to space
+    translator = str.maketrans(PUNCT,
+                               ' '*len(PUNCT)) #map punctuation to space
 
     lines = [line.strip().split("\t")
              for line in open(inp_fn, encoding = "utf8")][1:]
@@ -36,6 +38,7 @@ if __name__ == "__main__":
     with open(out_fn, "w") as fout:
         for (annot, sent) in tqdm(lines):
             prof1, prof2, pointer, gender, _ = annot.split(".")
+
             if prof2 == "unknown":
                 target = prof1
             else:
@@ -44,9 +47,6 @@ if __name__ == "__main__":
             # Remove "the"
             target_words = target.replace("the_", "").replace("a_", "").replace("an_", "")
             target_words = target_words.lower().split("_")
-
-            import re
-
 
             if len(target_words) > 1:
                 logging.warn(f"Multi-word profession: {target}")

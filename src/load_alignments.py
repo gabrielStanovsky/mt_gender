@@ -14,6 +14,7 @@ from typing import List
 
 # Local imports
 from languages.spacy_support import SpacyPredictor
+from evaluate import evaluate_bias
 #=-----
 
 LANGAUGE_PREDICTOR = {
@@ -102,14 +103,8 @@ if __name__ == "__main__":
               for line in open(bi_fn, encoding = "utf8")]
 
     translated_profs = get_translated_professions(align_fn, ds, bitext)
-    gender_predictions = [(prof, gender_predictor.get_gender(prof)) for prof in tqdm(translated_profs)]
-    uncertain = [elem for elem in gender_predictions
-                 if elem[1] is unknown]
+    gender_predictions = [gender_predictor.get_gender(prof) for prof in tqdm(translated_profs)]
 
-
-
-    logging.info(list(zip(translated_profs, gender_predictions))[:20])
-    c = Counter(map(itemgetter(1), gender_predictions))
-    logging.info(str(c))
+    d = evaluate_bias(ds, gender_predictions)
 
     logging.info("DONE")

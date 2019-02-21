@@ -34,6 +34,13 @@ SPACY_GENDER_TYPES = {
     "Fem": GENDER.female
 }
 
+# Winobias gender type conversion
+WB_GENDER_TYPES = {
+    "male": GENDER.male,
+    "female": GENDER.female,
+    "neutral": GENDER.neutral
+}
+
 
 def get_morphology_dict(token: Token) -> Dict:
     """

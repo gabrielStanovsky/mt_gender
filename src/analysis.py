@@ -112,7 +112,7 @@ if __name__ == "__main__":
     print(f"female professions = {female_prof}")
     print(f"neutral professions = {neutral_prof}")
     print(f"ambiguous professions = {amb_prof}")
-    
+
 
     pprint(conf_dict)
 
