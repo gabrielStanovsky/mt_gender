@@ -28,13 +28,14 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     pred_cnt = defaultdict(lambda: 0)
     correct_cnt = defaultdict(lambda: 0)
 
-    for (gold_gender, word_ind, sent), pred_gender in zip(ds, predicted):
+    for (gold_gender, word_ind, sent, _), pred_gender in zip(ds, predicted):
         gold_gender = WB_GENDER_TYPES[gold_gender]
 
-        sent = sent.split(" ")
+        sent = sent.split()
         word_ind = int(word_ind)
         profession = sent[word_ind]
-
+        if not profession:
+            pdb.set_trace()
 
         total[gold_gender] += 1
 

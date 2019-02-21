@@ -67,7 +67,7 @@ def convert_instance(inst: str):
     # Create a raw sentence and return
     raw_inst = inst.replace("[", "").replace("]", "")
 
-    return f"{gender}\t{occupation_word_index}\t{raw_inst}"
+    return f"{gender}\t{occupation_word_index}\t{raw_inst}\t{occupation}"
 
 if __name__ == "__main__":
     # Parse command line arguments

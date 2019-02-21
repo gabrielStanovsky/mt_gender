@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 raise AssertionError
 
             # Write output line (gender, target word index, sentence)
-            out_line = "\t".join([gender, str(target_word_indices[0]), sent])
+            out_line = "\t".join([gender, str(target_word_indices[0]), sent, target])
             fout.write(f"{out_line}\n")
 
     logging.info("DONE")

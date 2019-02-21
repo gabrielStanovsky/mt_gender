@@ -17,3 +17,5 @@ do
     echo "Evaluating $lang into $out_file"
     ../scripts/evaluate_language.sh ../data/aggregates/en.txt $lang >> $out_file
 done
+
+echo "DONE!"

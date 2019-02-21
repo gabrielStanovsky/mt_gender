@@ -31,14 +31,15 @@ class GENDER(Enum):
 
 SPACY_GENDER_TYPES = {
     "Masc": GENDER.male,
-    "Fem": GENDER.female
+    "Fem": GENDER.female,
+    "Neut": GENDER.neutral # seen in Dutch spacy
 }
 
 # Winobias gender type conversion
 WB_GENDER_TYPES = {
     "male": GENDER.male,
     "female": GENDER.female,
-    "neutral": GENDER.neutral
+    "neutral": GENDER.neutral,
 }
 
 
@@ -47,6 +48,9 @@ def get_morphology_dict(token: Token) -> Dict:
     Parse a morphology dictionary from spacy token.
     @TODO: No better way to do this?
     """
+    if "__" not in token.tag_:
+        raise AssertionError("No morphology support?")
+
     morphology = token.tag_.split("__")[1]
 
     if morphology == "_":

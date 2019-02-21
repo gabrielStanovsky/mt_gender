@@ -1,5 +1,5 @@
 """ Usage:
-    <file-name> --ds=DATASET_FILE --bi=IN_FILE --align=ALIGN_FILE --lang=LANG [--debug]
+    <file-name> --ds=DATASET_FILE --bi=IN_FILE --align=ALIGN_FILE --out=OUT_FILE --lang=LANG  [--debug]
 """
 # External imports
 import logging
@@ -11,6 +11,7 @@ from collections import defaultdict, Counter
 from operator import itemgetter
 from tqdm import tqdm
 from typing import List
+import csv
 
 # Local imports
 from languages.spacy_support import SpacyPredictor
@@ -27,7 +28,7 @@ def get_src_indices(instance: List[str]) -> List[int]:
     Determine a list of source side indices pertaining to a
     given instance in the dataset.
     """
-    _, src_word_ind, sent = instance
+    _, src_word_ind, sent = instance[: 3]
     src_word_ind = int(src_word_ind)
     sent_tok = sent.split(" ")
     if (src_word_ind > 0) and (sent_tok[src_word_ind - 1].lower() in ["the", "an", "a"]):
@@ -37,7 +38,6 @@ def get_src_indices(instance: List[str]) -> List[int]:
     src_indices.append(src_word_ind)
 
     return src_indices
-
 
 def get_translated_professions(alignment_fn: str, ds: List[List[str]], bitext: List[List[str]]) -> List[str]:
     """
@@ -54,7 +54,6 @@ def get_translated_professions(alignment_fn: str, ds: List[List[str]], bitext: L
     mismatched = [ind for (ind, (ds_src_sent, bitext_src_sent)) in enumerate(zip(ds_src_sents, bitext_src_sents))
                   if ds_src_sent != bitext_src_sent]
     if len(mismatched) != 0:
-        pdb.set_trace()
         raise AssertionError
 
     bitext = [[sent.split() for sent in line]
@@ -83,13 +82,28 @@ def get_translated_professions(alignment_fn: str, ds: List[List[str]], bitext: L
 
     return translated_professions
 
+
+def output_predictions(target_sentences, gender_predictions, out_fn):
+    """
+    Write gender predictions to output file, for comparison
+    with human judgments.
+    """
+    assert(len(list(target_sentences)) == len(list(gender_predictions)))
+    with open(out_fn, "w", encoding = "utf8") as fout:
+        writer = csv.writer(fout, delimiter=",")
+        writer.writerow(["Sentence", "Predicted gender"])
+        for sent, gender in zip(target_sentences, gender_predictions):
+            writer.writerow([sent, str(gender).split(".")[1]])
+
 if __name__ == "__main__":
     # Parse command line arguments
     args = docopt(__doc__)
     ds_fn = args["--ds"]
     bi_fn = args["--bi"]
     align_fn = args["--align"]
+    out_fn = args["--out"]
     lang = args["--lang"]
+
     debug = args["--debug"]
     if debug:
         logging.basicConfig(level = logging.DEBUG)
@@ -105,6 +119,11 @@ if __name__ == "__main__":
     translated_profs = get_translated_professions(align_fn, ds, bitext)
     gender_predictions = [gender_predictor.get_gender(prof) for prof in tqdm(translated_profs)]
 
+    # Output predictions
+    target_sentences = list(map(itemgetter(1), bitext))
+    output_predictions(target_sentences, gender_predictions, out_fn)
+
     d = evaluate_bias(ds, gender_predictions)
+
 
     logging.info("DONE")
