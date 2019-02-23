@@ -15,13 +15,16 @@ import csv
 
 # Local imports
 from languages.spacy_support import SpacyPredictor
+from languages.pymorph_support import PymorphPredictor
 from evaluate import evaluate_bias
 #=-----
 
 LANGAUGE_PREDICTOR = {
-    "es": SpacyPredictor("es"),
-    "fr": SpacyPredictor("fr"),
-    "it": SpacyPredictor("it"),
+    "es": lambda: SpacyPredictor("es"),
+    "fr": lambda: SpacyPredictor("fr"),
+    "it": lambda: SpacyPredictor("it"),
+    "ru": lambda: PymorphPredictor("ru"),
+    "uk": lambda: PymorphPredictor("uk"),
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:
@@ -112,7 +115,7 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level = logging.INFO)
 
-    gender_predictor = SpacyPredictor(lang)
+    gender_predictor = LANGAUGE_PREDICTOR[lang]()
 
     ds = [line.strip().split("\t") for line in open(ds_fn, encoding = "utf8")]
     bitext = [line.strip().split(" ||| ")

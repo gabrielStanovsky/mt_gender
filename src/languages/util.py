@@ -42,6 +42,13 @@ WB_GENDER_TYPES = {
     "neutral": GENDER.neutral,
 }
 
+PYMORPH_GENDER_TYPES = {
+    "masc": GENDER.male,
+    "femn": GENDER.female,
+    "neut": GENDER.neutral,
+    None: GENDER.neutral
+}
+
 
 def get_morphology_dict(token: Token) -> Dict:
     """

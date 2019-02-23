@@ -11,26 +11,27 @@ from collections import defaultdict
 from operator import itemgetter
 from tqdm import tqdm
 from collections import Counter
-import spacy
+import pymorphy2
+from pymorphy2.tokenizers import simple_word_tokenize
 
 # Local imports
-from languages.util import GENDER, get_gender_from_token
+from languages.util import GENDER, PYMORPH_GENDER_TYPES
 #=-----
 
-class SpacyPredictor:
+class PymorphPredictor:
     """
-    Class for spaCy supported languages.
-    These seem to include:
-    Spanish, French, and Italian.
+    Class for PyMorph supported languages.
+    These include Russian and Ukrainian.
     """
     def __init__(self, lang: str):
         """
-        Init spacy for the specified language code.
+        Init pymorph for the specified language code.
+        https://pymorphy2.readthedocs.io/en/latest/user/guide.html
         """
-        assert lang in ["es", "fr", "it"]
+        assert lang in ["uk", "ru"]
         self.lang = lang
         self.cache = {}    # Store calculated professions genders
-        self.nlp = spacy.load(self.lang, disable = ["parser", "ner"])
+        self.tagger = pymorphy2.MorphAnalyzer(lang = self.lang)
 
     def get_gender(self, profession: str) -> GENDER:
         """
@@ -49,15 +50,32 @@ class SpacyPredictor:
             # Empty string
             return GENDER.unknown
 
-        toks = self.nlp(profession)
-        observed_genders = [gender for gender in map(get_gender_from_token, toks)
-                            if gender is not None]
+        toks = simple_word_tokenize(profession)
+
+        observed_genders = [self.get_word_gender(tok) for tok in toks]
 
         if not observed_genders:
             # No observed gendered words - return neutral
             return GENDER.neutral
 
         # Return the most commonly observed gender
+        return Counter(observed_genders).most_common()[0][0]
+
+    def get_word_gender(self, word):
+        """
+        Get the most probable gender, based on the frequency of
+        predictions.
+        """
+        morphs = self.tagger.parse(word)
+        observed_genders = [PYMORPH_GENDER_TYPES[morph.tag.gender] for morph in morphs
+                            if (morph.tag.gender is not None)]
+
+        if not observed_genders:
+            return GENDER.neutral
+
+        if GENDER.female in observed_genders:
+            return GENDER.female
+
         return Counter(observed_genders).most_common()[0][0]
 
 if __name__ == "__main__":

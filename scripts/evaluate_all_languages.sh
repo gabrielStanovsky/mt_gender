@@ -9,17 +9,17 @@ corpus_fn=../data/aggregates/en.txt
 # Problematic (no morphology?): "de" "pt"
 # Slightly less problematic (different morph tags?):  "nl"
 
-langs=("it" "fr" "es")
+langs=("uk" "ru" "it" "fr" "es")
+mt_systems=("google" "bing" "systran")
 
 # Make sure systran has all translations
-
+for lang in ${langs[@]}
 do
     echo "Translating $lang with systran..."
     ../scripts/systran_language.sh $corpus_fn $lang
 done
 
-
-for trans_sys in "systran" "google" "bing"
+for trans_sys in ${mt_systems[@]}
 do
     for lang in ${langs[@]}
     do
