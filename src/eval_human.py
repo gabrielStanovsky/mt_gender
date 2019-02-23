@@ -1,5 +1,5 @@
 """ Usage:
-    <file-name> --gold=GOLD_FILE --pred=PRED_FILE --seed=SEED_FN [--debug]
+    <file-name> --gold=GOLD_FILE --pred=PRED_FILE [--debug]
 """
 # External imports
 import logging
@@ -21,28 +21,25 @@ if __name__ == "__main__":
     args = docopt(__doc__)
     gold_fn = args["--gold"]
     pred_fn = args["--pred"]
-    seed_fn = args["--seed"]
     debug = args["--debug"]
     if debug:
         logging.basicConfig(level = logging.DEBUG)
     else:
         logging.basicConfig(level = logging.INFO)
 
-    indices = list(map(int, open(seed_fn).read().split(",")))
-
     gold_rows = [row for row
                  in csv.reader(open(gold_fn, encoding = "utf8"), delimiter=",")][1:]
     pred_rows = [row for row
                  in csv.reader(open(pred_fn, encoding = "utf8"), delimiter=",")][1:]
 
-    assert len(indices) == len(gold_rows)
+    indices = map(int, map(itemgetter(0), gold_rows))
 
     total = 0
     correct = 0
 
     for (sent_ind, gold_row) in zip(indices, gold_rows):
         pred_row = pred_rows[sent_ind]
-        entity, gold_sent, valid_flag, gold_gender = gold_row[:4]
+        _, entity, gold_sent, valid_flag, gold_gender = gold_row[:5]
         pred_sent, pred_gender = pred_row
         if gold_sent != pred_sent:
             pdb.set_trace()

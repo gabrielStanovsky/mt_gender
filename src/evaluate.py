@@ -16,6 +16,13 @@ from typing import List, Dict
 from languages.util import GENDER, WB_GENDER_TYPES
 #=-----
 
+def calc_f1(precision: float, recall: float) -> float:
+    """
+    Compute F1 from precision and recall.
+    """
+    return 2 * (precision * recall) / (precision + recall)
+
+
 def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     """
     (language independent)
@@ -28,12 +35,11 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     pred_cnt = defaultdict(lambda: 0)
     correct_cnt = defaultdict(lambda: 0)
 
-    for (gold_gender, word_ind, sent, _), pred_gender in zip(ds, predicted):
+    for (gold_gender, word_ind, sent, profession), pred_gender in zip(ds, predicted):
         gold_gender = WB_GENDER_TYPES[gold_gender]
 
         sent = sent.split()
-        word_ind = int(word_ind)
-        profession = sent[word_ind]
+        profession = profession.lower().replace("the ","")
         if not profession:
             pdb.set_trace()
 
@@ -50,10 +56,16 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     prof_dict = dict(prof_dict)
     all_total = sum(total.values())
     acc = round((sum(correct_cnt.values()) / all_total) * 100, 2)
-    acc_male = round((correct_cnt[GENDER.male] / total[GENDER.male]) * 100, 2)
-    acc_female = round((correct_cnt[GENDER.female] / total[GENDER.female]) * 100, 2)
 
-    print(f"#total = {all_total}; \n acc = {acc}%; acc_male = {acc_male}%; acc_female = {acc_female}%")
+    recall_male = round((correct_cnt[GENDER.male] / total[GENDER.male]) * 100, 2)
+    prec_male = round((correct_cnt[GENDER.male] / pred_cnt[GENDER.male]) * 100, 2)
+    f1_male = round(calc_f1(prec_male, recall_male), 2)
+
+    recall_female = round((correct_cnt[GENDER.female] / total[GENDER.female]) * 100, 2)
+    prec_female = round((correct_cnt[GENDER.female] / pred_cnt[GENDER.female]) * 100, 2)
+    f1_female = round(calc_f1(prec_female, recall_female), 2)
+
+    print(f"#total = {all_total}; \n acc = {acc}%; f1_male = {f1_male}% (p: {prec_male} / r: {recall_male}); f1_female = {f1_female}% (p: {prec_female} / r: {recall_female})")
     print("Gold distribution: male: {}%, female: {}%, neutral: {}%".format(round(percentage(total[GENDER.male], all_total), 2),
                                                                            round(percentage(total[GENDER.female], all_total),2),
                                                                            round(percentage(total[GENDER.neutral], all_total)),2))

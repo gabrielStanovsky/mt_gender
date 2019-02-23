@@ -19,7 +19,9 @@ from evaluate import evaluate_bias
 #=-----
 
 LANGAUGE_PREDICTOR = {
-    "es": SpacyPredictor("es")
+    "es": SpacyPredictor("es"),
+    "fr": SpacyPredictor("fr"),
+    "it": SpacyPredictor("it"),
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:

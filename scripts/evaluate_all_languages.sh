@@ -4,18 +4,31 @@
 set -e
 
 out_folder=$1
+corpus_fn=../data/aggregates/en.txt
 
 # Problematic (no morphology?): "de" "pt"
 # Slightly less problematic (different morph tags?):  "nl"
-for lang in  "it" "es" "fr"
-do
-    # Make sure that spacy model is available
-    python -m spacy download $lang
 
-    # Run evaluation
-    out_file=$out_folder/$lang.log
-    echo "Evaluating $lang into $out_file"
-    ../scripts/evaluate_language.sh ../data/aggregates/en.txt $lang >> $out_file
+langs=("it" "fr" "es")
+
+# Make sure systran has all translations
+
+do
+    echo "Translating $lang with systran..."
+    ../scripts/systran_language.sh $corpus_fn $lang
+done
+
+
+for trans_sys in "systran" "google" "bing"
+do
+    for lang in ${langs[@]}
+    do
+        # Run evaluation
+        mkdir -p $out_folder/$trans_sys
+        out_file=$out_folder/$trans_sys/$lang.log
+        echo "Evaluating $lang into $out_file"
+        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys > $out_file
+    done
 done
 
 echo "DONE!"

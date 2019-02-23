@@ -1,0 +1,5 @@
+Not translating since translation file exists: ../translations/google/en-nl.txt
+> /Users/gabis/mt_gender/src/evaluate.py(40)evaluate_bias()
+-> total[gold_gender] += 1
+(Pdb) --KeyboardInterrupt--
+(Pdb) 

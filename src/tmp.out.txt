@@ -1,5 +1,0 @@
-The beautiful technician told the customer that he could pay with cash.	El hermoso técnico le dijo al cliente que podía pagar en efectivo.
-The technician told the smart customer that she could pay with cash.	El técnico le dijo al cliente inteligente que podía pagar en efectivo.
-The beautiful technician told the customer that he had completed the repair.	El hermoso técnico le dijo al cliente que había completado la reparación.
-The smart technician told the customer that she had completed the repair.	El técnico inteligente le dijo al cliente que ella había completado la reparación.
-The beuatiful technician told someone that he had completed the repair.	El técnico de beuatiful le dijo a alguien que había completado la reparación.

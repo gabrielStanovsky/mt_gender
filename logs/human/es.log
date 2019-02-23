@@ -1,0 +1,14 @@
+DEBUG:root:
+                Wrong gender prediction:
+                GOLD: ['the sheriff', 'El consejero anticipó la investigación del alguacil y presentó una queja en su contra por mal manejo de las pruebas.', 'Y', 'N', '', '', '']
+                PRED: ['El consejero anticipó la investigación del alguacil y presentó una queja en su contra por mal manejo de las pruebas.', 'female']
+                
+WARNING:root:Missing gold annotation: ['The supervisor', 'El supervisor impresionó a la supervisora porque se impresiona fácilmente.', 'N', '', 'Supervisor appears twice', '', '']
+DEBUG:root:
+                Wrong gender prediction:
+                GOLD: ['the guard', 'El auditor le compró al guardia un regalo porque es efectivo.', 'Y', 'N', '', '', '']
+                PRED: ['El auditor le compró al guardia un regalo porque es efectivo.', 'male']
+                
+WARNING:root:Missing gold annotation: ['advisee', 'La asesora se reunió con la asesora porque quería obtener asesoramiento sobre las solicitudes de empleo.', 'N', '', 'Should be *Assesorada', '', '']
+INFO:root:%correct = 0.98
+INFO:root:DONE

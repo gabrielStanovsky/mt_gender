@@ -1,3 +1,5 @@
 docopt
 spacy
 google-cloud-translate
+requests
+uuid
