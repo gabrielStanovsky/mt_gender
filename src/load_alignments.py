@@ -16,6 +16,7 @@ import csv
 # Local imports
 from languages.spacy_support import SpacyPredictor
 from languages.pymorph_support import PymorphPredictor
+from languages.hebrew import HebrewPredictor
 from evaluate import evaluate_bias
 #=-----
 
@@ -25,6 +26,7 @@ LANGAUGE_PREDICTOR = {
     "it": lambda: SpacyPredictor("it"),
     "ru": lambda: PymorphPredictor("ru"),
     "uk": lambda: PymorphPredictor("uk"),
+    "he": lambda: HebrewPredictor(),
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:

@@ -7,17 +7,17 @@ male professions = ['developer', 'salesperson', 'physician', 'an assistant', ' p
 female professions = ['nurse', 'a housekeeper', 'victim']
 neutral professions = ['someone']
 ambiguous professions = ['designer', 'mechanic', 'clerk', 'mover', 'housekeeper', 'analyst', 'assistant', 'chief', 'librarian', 'lawyer', 'hairdresser', 'cook', 'teacher', 'baker', 'farmer', 'ceo', 'manager', 'driver', 'auditor', 'receptionist', 'guard', 'editor', 'secretary', 'cleaner', 'laborer', 'cashier', 'tailor', 'writer', 'construction worker', 'counselor', 'carpenter', 'janitor', 'accountant', 'supervisor', 'attendant', 'sheriff', 'specialist']
-defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11b04a2f0>,
-            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11bd31e18>,
+defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11fad1598>,
+            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x1207be268>,
                                            {<GENDER.male: 0>: 1499,
                                             <GENDER.neutral: 2>: 86,
                                             <GENDER.female: 1>: 236,
                                             <GENDER.unknown: 3>: 5}),
-             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11bd31ea0>,
+             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x1207be2f0>,
                                               {<GENDER.male: 0>: 171,
                                                <GENDER.neutral: 2>: 61,
                                                <GENDER.female: 1>: 8}),
-             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11bd31d90>,
+             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x1207be1e0>,
                                              {<GENDER.male: 0>: 1453,
                                               <GENDER.neutral: 2>: 85,
                                               <GENDER.female: 1>: 279,

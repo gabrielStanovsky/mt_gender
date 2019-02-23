@@ -42,8 +42,7 @@ if __name__ == "__main__":
         _, entity, gold_sent, valid_flag, gold_gender = gold_row[:5]
         pred_sent, pred_gender = pred_row
         if gold_sent != pred_sent:
-            pdb.set_trace()
-            raise AssertionError
+            raise AssertionError(f"Mismatch:\n {gold_sent} \n {pred_sent}")
         gold_gender = gold_gender.strip().lower()
         if gold_gender not in ["m", "f", "n"]:
             logging.warning(f"Missing gold annotation: {gold_row}")
