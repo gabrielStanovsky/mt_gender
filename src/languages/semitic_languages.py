@@ -72,7 +72,6 @@ class ArabicPredictor:
         """
         Predict gender of an input profession.
         """
-        pdb.set_trace()
         if profession not in self.cache:
             self.cache[profession] = self._get_gender(profession)
 
@@ -85,7 +84,7 @@ class ArabicPredictor:
         """
         if not profession.strip():
             # Empty string
-            return GENDER.female
+            return GENDER.male
 
         toks = self.tokenizer(profession)
 
