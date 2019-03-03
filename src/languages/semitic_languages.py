@@ -29,7 +29,7 @@ class HebrewPredictor:
         self.cache = {}    # Store calculated professions genders
         self.tokenizer = Hebrew().tokenizer
 
-    def get_gender(self, profession: str) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
@@ -58,7 +58,7 @@ class HebrewPredictor:
 
 class ArabicPredictor:
     """
-    Hebrew morphology heurstics.
+    Arabic morphology heurstics.
     """
     def __init__(self):
         """
@@ -68,10 +68,11 @@ class ArabicPredictor:
         self.cache = {}    # Store calculated professions genders
         self.tokenizer = lambda sent: sent.split() # Might be better with a dedicated Arabic tokenizer
 
-    def get_gender(self, profession: str) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
+        pdb.set_trace()
         if profession not in self.cache:
             self.cache[profession] = self._get_gender(profession)
 

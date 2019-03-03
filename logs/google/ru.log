@@ -1,25 +1,25 @@
 Not translating since translation file exists: ../translations/google/en-ru.txt
 #total = 3888; 
- acc = 37.71%; f1_male = 55.76% (p: 47.33 / r: 67.85); f1_female = 18.94% (p: 54.29 / r: 11.47)
-Gold distribution: male: 46.97%, female: 46.86%, neutral: 6%
-Predictions: male: 67.34%, female: 9.9%, neutral: 9.75%
+ acc = 37.7%; f1_male = 55.8% (p: 47.3 / r: 67.9); f1_female = 19.0% (p: 54.3 / r: 11.5)
+Gold distribution: male: 47.0% (1826), female: 46.86% (1822), neutral: 6.17% (0)
+Predictions: male: 67.3%, female: 9.9%, neutral: 9.7%
 male professions = ['an assistant', ' physician', 'taxpayer', 'employee', 'engineer', 'pedestrian', 'worker', 'educator', 'homeowner', 'teenager', 'undergraduate', 'administrator', 'visitor', 'advisor', 'pharmacist', 'psychologist', 'onlooker', 'investigator', 'bartender', 'specialist', 'officer', 'protester', 'pathologist', 'resident', 'planner', 'instructor', 'surgeon', 'owner', 'veterinarian', 'paramedic', 'passenger', 'examiner', 'chemist', 'machinist', 'buyer', 'appraiser', 'programmer', 'paralegal', 'scientist', 'bystander', 'dietitian', 'painter', 'broker', 'guest', 'chef', 'doctor']
 female professions = ['a housekeeper', 'technician', 'electrician']
 neutral professions = ['inspector', 'therapist', 'advisee', 'architect']
 ambiguous professions = ['developer', 'designer', 'mechanic', 'clerk', 'mover', 'housekeeper', 'analyst', 'assistant', 'chief', 'salesperson', 'librarian', 'lawyer', 'hairdresser', 'cook', 'teacher', 'physician', 'baker', 'farmer', 'ceo', 'nurse', 'manager', 'driver', 'auditor', 'receptionist', 'guard', 'editor', 'secretary', 'cleaner', 'laborer', 'cashier', 'tailor', 'writer', 'construction worker', 'counselor', 'carpenter', 'janitor', 'accountant', 'supervisor', 'attendant', 'sheriff', 'customer', 'someone', 'client', 'student', 'patient', 'child', 'witness', 'victim', 'practitioner', 'plumber', 'nutritionist', 'hygienist', 'dispatcher', 'firefighter']
-defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x114ee9ae8>,
-            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x115bd7bf8>,
-                                           {<GENDER.male: 0>: 1239,
-                                            <GENDER.neutral: 2>: 176,
-                                            <GENDER.female: 1>: 165,
-                                            <GENDER.unknown: 3>: 246}),
-             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x115bd7c80>,
-                                              {<GENDER.male: 0>: 196,
-                                               <GENDER.neutral: 2>: 18,
-                                               <GENDER.female: 1>: 11,
-                                               <GENDER.unknown: 3>: 15}),
-             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x115bd7b70>,
-                                             {<GENDER.male: 0>: 1183,
+defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x113d46e18>,
+            {<GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x113da1378>,
+                                             {<GENDER.female: 1>: 209,
+                                              <GENDER.male: 0>: 1183,
                                               <GENDER.neutral: 2>: 185,
-                                              <GENDER.female: 1>: 209,
-                                              <GENDER.unknown: 3>: 245})})
+                                              <GENDER.unknown: 3>: 245}),
+             <GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x113da1400>,
+                                           {<GENDER.female: 1>: 165,
+                                            <GENDER.male: 0>: 1239,
+                                            <GENDER.neutral: 2>: 176,
+                                            <GENDER.unknown: 3>: 246}),
+             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x113da1488>,
+                                              {<GENDER.female: 1>: 11,
+                                               <GENDER.male: 0>: 196,
+                                               <GENDER.neutral: 2>: 18,
+                                               <GENDER.unknown: 3>: 15})})

@@ -1,22 +1,19 @@
 Not translating since translation file exists: ../translations/google/en-he.txt
 #total = 3888; 
- acc = 49.33%; f1_male = 52.79% (p: 51.05 / r: 54.65); f1_female = 52.33% (p: 54.31 / r: 50.49)
-Gold distribution: male: 46.97%, female: 46.86%, neutral: 6%
-Predictions: male: 50.28%, female: 43.57%, neutral: 0.0%
-male professions = ['an assistant', 'employee', 'engineer', 'pedestrian', 'educator', 'teenager', 'administrator', 'visitor', 'investigator', 'electrician', 'officer', 'pathologist', 'victim', 'plumber', 'surgeon', 'owner', 'veterinarian', 'paramedic', 'passenger', 'examiner', 'chemist', 'machinist', 'appraiser', 'architect', 'scientist', 'dispatcher', 'bystander', 'broker', 'guest', 'chef', 'doctor']
-female professions = ['a housekeeper', ' physician', 'homeowner', 'inspector', 'onlooker', 'witness', 'bartender', 'protester', 'buyer', 'programmer', 'hygienist', 'dietitian', 'firefighter']
+ acc = 53.7%; f1_male = 58.9% (p: 51.6 / r: 68.6); f1_female = 51.0% (p: 57.3 / r: 45.9)
+Gold distribution: male: 47.0% (1826), female: 46.86% (1822), neutral: 6.17% (0)
+Predictions: male: 62.4%, female: 37.6%, neutral: 0.0%
+male professions = ['developer', 'physician', 'an assistant', ' physician', 'taxpayer', 'employee', 'engineer', 'client', 'pedestrian', 'educator', 'inspector', 'teenager', 'administrator', 'visitor', 'child', 'witness', 'investigator', 'bartender', 'electrician', 'officer', 'pathologist', 'victim', 'plumber', 'surgeon', 'owner', 'veterinarian', 'paramedic', 'passenger', 'examiner', 'chemist', 'machinist', 'appraiser', 'architect', 'paralegal', 'scientist', 'dispatcher', 'bystander', 'broker', 'guest', 'chef', 'doctor']
+female professions = ['housekeeper', 'teacher', 'receptionist', 'a housekeeper', 'homeowner', 'onlooker', 'specialist', 'buyer', 'programmer', 'hygienist', 'dietitian', 'firefighter']
 neutral professions = []
-ambiguous professions = ['developer', 'designer', 'mechanic', 'clerk', 'mover', 'housekeeper', 'analyst', 'assistant', 'chief', 'salesperson', 'librarian', 'lawyer', 'hairdresser', 'cook', 'teacher', 'physician', 'baker', 'farmer', 'ceo', 'nurse', 'manager', 'driver', 'auditor', 'receptionist', 'guard', 'editor', 'secretary', 'cleaner', 'laborer', 'cashier', 'tailor', 'writer', 'construction worker', 'counselor', 'carpenter', 'janitor', 'accountant', 'supervisor', 'attendant', 'sheriff', 'customer', 'someone', 'technician', 'taxpayer', 'client', 'worker', 'student', 'patient', 'therapist', 'undergraduate', 'child', 'advisee', 'advisor', 'pharmacist', 'psychologist', 'specialist', 'resident', 'planner', 'practitioner', 'instructor', 'nutritionist', 'paralegal', 'painter']
-defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11c815ea0>,
-            {<GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11d493a60>,
-                                             {<GENDER.female: 1>: 920,
-                                              <GENDER.male: 0>: 787,
-                                              <GENDER.unknown: 3>: 115}),
-             <GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11d493ae8>,
-                                           {<GENDER.female: 1>: 713,
-                                            <GENDER.male: 0>: 998,
-                                            <GENDER.unknown: 3>: 115}),
-             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11d493b70>,
-                                              {<GENDER.female: 1>: 61,
-                                               <GENDER.male: 0>: 170,
-                                               <GENDER.unknown: 3>: 9})})
+ambiguous professions = ['designer', 'mechanic', 'clerk', 'mover', 'analyst', 'assistant', 'chief', 'salesperson', 'librarian', 'lawyer', 'hairdresser', 'cook', 'baker', 'farmer', 'ceo', 'nurse', 'manager', 'driver', 'auditor', 'guard', 'editor', 'secretary', 'cleaner', 'laborer', 'cashier', 'tailor', 'writer', 'construction worker', 'counselor', 'carpenter', 'janitor', 'accountant', 'supervisor', 'attendant', 'sheriff', 'customer', 'someone', 'technician', 'worker', 'student', 'patient', 'therapist', 'undergraduate', 'advisee', 'advisor', 'pharmacist', 'psychologist', 'protester', 'resident', 'planner', 'practitioner', 'instructor', 'nutritionist', 'painter']
+defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11b3e76a8>,
+            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11c05d2f0>,
+                                           {<GENDER.male: 0>: 1253,
+                                            <GENDER.female: 1>: 573}),
+             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11c05d378>,
+                                              {<GENDER.male: 0>: 189,
+                                               <GENDER.female: 1>: 51}),
+             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11c05d268>,
+                                             {<GENDER.male: 0>: 986,
+                                              <GENDER.female: 1>: 836})})

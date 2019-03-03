@@ -17,29 +17,48 @@ import spacy
 from languages.util import GENDER, get_gender_from_token
 #=-----
 
-class SpacyPredictor:
+DE_DETERMINERS = {"der": GENDER.male, "ein": GENDER.male, "dem": GENDER.male, "den": GENDER.male,
+                  "einen": GENDER.male, "des": GENDER.male, "er": GENDER.male, "seiner": GENDER.male,
+                  "ihn": GENDER.male, "seinen": GENDER.male, "ihm": GENDER.male, "ihren": GENDER.male,
+                  "die": GENDER.female, "eine": GENDER.female, "einer": GENDER.female, "seinem": GENDER.male,
+                  "ihrem": GENDER.male, "sein": GENDER.male,
+                  "sie": GENDER.female, "seine": GENDER.female, "ihrer": GENDER.female, 
+                  "ihr": GENDER.neutral, "ihre": GENDER.neutral, "das": GENDER.neutral,
+                  "jemanden": GENDER.neutral} 
+
+class GermanPredictor:
     """
-    Class for spaCy supported languages.
-    These seem to include:
-    Spanish, French, and Italian.
+    German gender predictor
     """
-    def __init__(self, lang: str):
+    def __init__(self):
         """
         Init spacy for the specified language code.
         """
-        assert lang in ["es", "fr", "it"]
-        self.lang = lang
+        self.lang = "de"
         self.cache = {}    # Store calculated professions genders
-        self.nlp = spacy.load(self.lang, disable = ["parser", "ner"])
+        self.nlp = spacy.load("de", disable = ["parser", "ner"])
 
     def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
-        if profession not in self.cache:
-            self.cache[profession] = self._get_gender(profession)
+        words = [word.text for word in self.nlp(translated_sent)]
+        dets = self.get_determiners(words)
+        if len(dets) < 2:
+            logging.warn(f"less than two dets found: {translated_sent}")
+        closest_det = min(dets, key = lambda elem: abs(elem[0] - entity_index))
+        identified_gender = DE_DETERMINERS[closest_det[1]]
+        pdb.set_trace()
+        return identified_gender
 
-        return self.cache[profession]
+    def get_determiners(self, words):
+        """
+        Get a list of (index, determiners)
+        given a list of words.
+        """
+        determiners = [(word_ind, word.lower()) for (word_ind, word) in enumerate(words)
+                       if word.lower() in DE_DETERMINERS]
+        return determiners
 
     def _get_gender(self, profession: str) -> GENDER:
         """

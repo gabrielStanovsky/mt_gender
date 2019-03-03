@@ -1,25 +1,25 @@
 Not translating since translation file exists: ../translations/systran/en-es.txt
 #total = 3888; 
- acc = 45.6%; f1_male = 60.94% (p: 47.64 / r: 84.56); f1_female = 14.58% (p: 49.21 / r: 8.56)
-Gold distribution: male: 46.97%, female: 46.86%, neutral: 6%
-Predictions: male: 83.36%, female: 8.15%, neutral: 8.18%
+ acc = 45.6%; f1_male = 60.9% (p: 47.6 / r: 84.6); f1_female = 14.6% (p: 49.2 / r: 8.6)
+Gold distribution: male: 47.0% (1826), female: 46.86% (1822), neutral: 6.17% (0)
+Predictions: male: 83.4%, female: 8.2%, neutral: 8.2%
 male professions = ['developer', 'salesperson', 'librarian', 'cook', 'teacher', 'cleaner', 'construction worker', 'janitor', 'an assistant', 'technician', 'taxpayer', 'employee', 'engineer', 'client', 'pedestrian', 'worker', 'educator', 'homeowner', 'inspector', 'therapist', 'teenager', 'undergraduate', 'administrator', 'child', 'advisee', 'advisor', 'pharmacist', 'psychologist', 'onlooker', 'witness', 'investigator', 'electrician', 'officer', 'protester', 'pathologist', 'resident', 'planner', 'practitioner', 'instructor', 'surgeon', 'owner', 'veterinarian', 'paramedic', 'passenger', 'examiner', 'chemist', 'machinist', 'buyer', 'appraiser', 'nutritionist', 'architect', 'programmer', 'paralegal', 'hygienist', 'scientist', 'dispatcher', 'bystander', 'dietitian', 'painter', 'broker', 'chef', 'doctor', 'firefighter']
 female professions = ['nurse', 'secretary', 'a housekeeper', 'victim', 'guest']
 neutral professions = [' physician', 'bartender', 'specialist']
 ambiguous professions = ['designer', 'mechanic', 'clerk', 'mover', 'housekeeper', 'analyst', 'assistant', 'chief', 'lawyer', 'hairdresser', 'physician', 'baker', 'farmer', 'ceo', 'manager', 'driver', 'auditor', 'receptionist', 'guard', 'editor', 'laborer', 'cashier', 'tailor', 'writer', 'counselor', 'carpenter', 'accountant', 'supervisor', 'attendant', 'sheriff', 'customer', 'someone', 'student', 'patient', 'visitor', 'plumber']
-defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x116f937b8>,
-            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x122327400>,
+defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11b354a60>,
+            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x1270210d0>,
                                            {<GENDER.male: 0>: 1544,
+                                            <GENDER.neutral: 2>: 123,
                                             <GENDER.female: 1>: 153,
-                                            <GENDER.unknown: 3>: 6,
-                                            <GENDER.neutral: 2>: 123}),
-             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x1223276a8>,
-                                             {<GENDER.male: 0>: 1539,
-                                              <GENDER.female: 1>: 156,
-                                              <GENDER.unknown: 3>: 5,
-                                              <GENDER.neutral: 2>: 122}),
-             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x122327488>,
+                                            <GENDER.unknown: 3>: 6}),
+             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x127021158>,
                                               {<GENDER.male: 0>: 158,
+                                               <GENDER.neutral: 2>: 73,
                                                <GENDER.female: 1>: 8,
-                                               <GENDER.unknown: 3>: 1,
-                                               <GENDER.neutral: 2>: 73})})
+                                               <GENDER.unknown: 3>: 1}),
+             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x127021048>,
+                                             {<GENDER.male: 0>: 1539,
+                                              <GENDER.neutral: 2>: 122,
+                                              <GENDER.female: 1>: 156,
+                                              <GENDER.unknown: 3>: 5})})

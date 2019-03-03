@@ -55,23 +55,24 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
 
     prof_dict = dict(prof_dict)
     all_total = sum(total.values())
-    acc = round((sum(correct_cnt.values()) / all_total) * 100, 2)
+    acc = round((sum(correct_cnt.values()) / all_total) * 100, 1)
 
-    recall_male = round((correct_cnt[GENDER.male] / total[GENDER.male]) * 100, 2)
-    prec_male = round((correct_cnt[GENDER.male] / pred_cnt[GENDER.male]) * 100, 2)
-    f1_male = round(calc_f1(prec_male, recall_male), 2)
+    recall_male = round((correct_cnt[GENDER.male] / total[GENDER.male]) * 100, 1)
+    prec_male = round((correct_cnt[GENDER.male] / pred_cnt[GENDER.male]) * 100, 1)
+    f1_male = round(calc_f1(prec_male, recall_male), 1)
 
-    recall_female = round((correct_cnt[GENDER.female] / total[GENDER.female]) * 100, 2)
-    prec_female = round((correct_cnt[GENDER.female] / pred_cnt[GENDER.female]) * 100, 2)
-    f1_female = round(calc_f1(prec_female, recall_female), 2)
+    recall_female = round((correct_cnt[GENDER.female] / total[GENDER.female]) * 100, 1)
+    prec_female = round((correct_cnt[GENDER.female] / pred_cnt[GENDER.female]) * 100, 1)
+    f1_female = round(calc_f1(prec_female, recall_female), 1)
 
     print(f"#total = {all_total}; \n acc = {acc}%; f1_male = {f1_male}% (p: {prec_male} / r: {recall_male}); f1_female = {f1_female}% (p: {prec_female} / r: {recall_female})")
-    print("Gold distribution: male: {}%, female: {}%, neutral: {}%".format(round(percentage(total[GENDER.male], all_total), 2),
-                                                                           round(percentage(total[GENDER.female], all_total),2),
-                                                                           round(percentage(total[GENDER.neutral], all_total)),2))
-    print("Predictions: male: {}%, female: {}%, neutral: {}%".format(round((pred_cnt[GENDER.male] / all_total) * 100, 2),
-                                                                     round((pred_cnt[GENDER.female] / all_total) * 100, 2),
-                                                                     round((pred_cnt[GENDER.neutral] / all_total) * 100, 2)))
+    print("Gold distribution: male: {}% ({}), female: {}% ({}), neutral: {}% ({})".format(round(percentage(total[GENDER.male], all_total), 1), total[GENDER.male],
+                                                                                          round(percentage(total[GENDER.female], all_total),2), total[GENDER.female],
+                                                                                          round(percentage(total[GENDER.neutral], all_total),2), total[GENDER.unknown]))
+
+    print("Predictions: male: {}%, female: {}%, neutral: {}%".format(round((pred_cnt[GENDER.male] / all_total) * 100, 1),
+                                                                     round((pred_cnt[GENDER.female] / all_total) * 100, 1),
+                                                                     round((pred_cnt[GENDER.neutral] / all_total) * 100, 1)))
 
     male_prof = [prof for prof, vals in prof_dict.items()
                  if all(pred_gender == GENDER.male

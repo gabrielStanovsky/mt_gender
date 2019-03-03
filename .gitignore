@@ -110,3 +110,4 @@ translations/
 \.*
 *.align
 api_key.txt
+*tmp*

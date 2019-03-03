@@ -1,24 +1,24 @@
 Not translating since translation file exists: ../translations/google/en-it.txt
 #total = 3888; 
- acc = 39.48%; f1_male = 55.82% (p: 47.25 / r: 68.18); f1_female = 23.15% (p: 54.36 / r: 14.71)
-Gold distribution: male: 46.97%, female: 46.86%, neutral: 6%
-Predictions: male: 67.77%, female: 12.68%, neutral: 17.23%
+ acc = 39.5%; f1_male = 55.8% (p: 47.2 / r: 68.2); f1_female = 23.1% (p: 54.4 / r: 14.7)
+Gold distribution: male: 47.0% (1826), female: 46.86% (1822), neutral: 6.17% (0)
+Predictions: male: 67.8%, female: 12.7%, neutral: 17.2%
 male professions = ['physician', 'writer', 'supervisor', 'sheriff', 'an assistant', ' physician', 'technician', 'employee', 'worker', 'student', 'educator', 'homeowner', 'therapist', 'undergraduate', 'administrator', 'visitor', 'child', 'advisee', 'advisor', 'pharmacist', 'psychologist', 'onlooker', 'investigator', 'specialist', 'protester', 'pathologist', 'resident', 'planner', 'practitioner', 'plumber', 'instructor', 'surgeon', 'owner', 'veterinarian', 'paramedic', 'examiner', 'chemist', 'machinist', 'buyer', 'appraiser', 'nutritionist', 'architect', 'programmer', 'paralegal', 'scientist', 'bystander', 'dietitian', 'painter', 'broker', 'chef', 'doctor', 'firefighter']
 female professions = ['guard', 'a housekeeper', 'engineer', 'pedestrian', 'victim', 'passenger', 'guest']
 neutral professions = ['inspector', 'teenager', 'bartender', 'electrician', 'officer', 'hygienist']
 ambiguous professions = ['developer', 'designer', 'mechanic', 'clerk', 'mover', 'housekeeper', 'analyst', 'assistant', 'chief', 'salesperson', 'librarian', 'lawyer', 'hairdresser', 'cook', 'teacher', 'baker', 'farmer', 'ceo', 'nurse', 'manager', 'driver', 'auditor', 'receptionist', 'editor', 'secretary', 'cleaner', 'laborer', 'cashier', 'tailor', 'construction worker', 'counselor', 'carpenter', 'janitor', 'accountant', 'attendant', 'customer', 'someone', 'taxpayer', 'client', 'patient', 'witness', 'dispatcher']
-defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x11a400d08>,
-            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11b092b70>,
+defaultdict(<function evaluate_bias.<locals>.<lambda> at 0x125ddd510>,
+            {<GENDER.male: 0>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x126ac41e0>,
                                            {<GENDER.male: 0>: 1245,
                                             <GENDER.neutral: 2>: 324,
                                             <GENDER.female: 1>: 213,
                                             <GENDER.unknown: 3>: 44}),
-             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11b092840>,
+             <GENDER.neutral: 2>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x126ac4268>,
                                               {<GENDER.male: 0>: 205,
                                                <GENDER.neutral: 2>: 22,
                                                <GENDER.female: 1>: 12,
                                                <GENDER.unknown: 3>: 1}),
-             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x11b092c80>,
+             <GENDER.female: 1>: defaultdict(<function evaluate_bias.<locals>.<lambda>.<locals>.<lambda> at 0x126ac4158>,
                                              {<GENDER.male: 0>: 1185,
                                               <GENDER.neutral: 2>: 324,
                                               <GENDER.female: 1>: 268,

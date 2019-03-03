@@ -15,8 +15,9 @@ import csv
 
 # Local imports
 from languages.spacy_support import SpacyPredictor
+from languages.german import GermanPredictor
 from languages.pymorph_support import PymorphPredictor
-from languages.hebrew import HebrewPredictor
+from languages.semitic_languages import HebrewPredictor, ArabicPredictor
 from evaluate import evaluate_bias
 #=-----
 
@@ -27,6 +28,8 @@ LANGAUGE_PREDICTOR = {
     "ru": lambda: PymorphPredictor("ru"),
     "uk": lambda: PymorphPredictor("uk"),
     "he": lambda: HebrewPredictor(),
+    "ar": lambda: ArabicPredictor(),
+    "de": lambda: GermanPredictor()
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:
@@ -124,7 +127,13 @@ if __name__ == "__main__":
               for line in open(bi_fn, encoding = "utf8")]
 
     translated_profs = get_translated_professions(align_fn, ds, bitext)
-    gender_predictions = [gender_predictor.get_gender(prof) for prof in tqdm(translated_profs)]
+
+
+    gender_predictions = [gender_predictor.get_gender(prof, translated_sent, entity_index)
+                          for prof, translated_sent, entity_index
+                          in tqdm(zip(translated_profs,
+                                      map(itemgetter(1), bitext),
+                                      map(int, map(itemgetter(1), ds))))]
 
     # Output predictions
     target_sentences = list(map(itemgetter(1), bitext))

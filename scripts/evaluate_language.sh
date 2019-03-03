@@ -26,6 +26,7 @@ else
     echo "Not translating since translation file exists: $trans_fn"
 fi
 
+
 # Align
 align_fn=forward.$prefix.align
 ../../fast_align/build/fast_align -i $trans_fn  -d -o -v > $align_fn
