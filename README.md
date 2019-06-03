@@ -9,6 +9,7 @@ This repo contains code and data for reproducing the experiments in "Evaluating 
 `./install.sh`
 
 ## Running our experiments 
+This is the entry point for all our experiments: [scripts/evaluate_all_languages.sh](scripts/evaluate_all_languages.sh).
 Run all of the following from the  `src` folder. Output logs will be written to the given
 path.
 * For the general accuracy number, run:
@@ -26,5 +27,5 @@ path.
 ## Adding an MT system
 1. Translate the file in `data/aggregates/en.txt` to the languages in our evaluation method.
 2. Put the transalations in `translations/your-mt-system/en-targetLanguage.txt` where each sentence is in a new line, which has the following format `original-sentence ||| translated sentence`. See [this file](translations/aws/en-fr.txt) for an example.
-3. Add your translator in the `mt_systems` enumeration in the [evaluation script](scripts/evaluate_all_languages.sh)
+3. Add your translator in the `mt_systems` enumeration in the [evaluation script](scripts/evaluate_all_languages.sh).
 
