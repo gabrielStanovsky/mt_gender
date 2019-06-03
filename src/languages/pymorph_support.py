@@ -32,7 +32,6 @@ class PymorphPredictor:
         assert lang in ["uk", "ru"]
         self.lang = lang
         self.cache = {}    # Store calculated professions genders
-        dawg.PrefixMatcher = dawg.PythonPrefixMatcher
         self.tagger = pymorphy2.MorphAnalyzer(lang = lang)
 
     def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:

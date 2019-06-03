@@ -1,14 +1,12 @@
 # Evaluating Gender Bias in Machine Translation
 
-**NOTE**: this repo is a little bit messy, will be organized and cleaned in the next couple of weeks
-
 This repo contains code and data for reproducing the experiments in "Evaluating Gender Bias in Machine Translation" (Stanovsky et al., 2019).
 
 ## Requirements
 * [fast_align](https://github.com/clab/fast_align) -- install and point an environment variable called FAST_ALIGN_BASE to its root folder (the one containing a `build` folder).
 
 ## Install
-`pip install -r requirements.txt`
+`./install.sh`
 
 ## Running our experiments 
 Run all of the following from the  `src` folder. Output logs will be written to the given
@@ -25,9 +23,8 @@ path.
 
         ../scripts/evaluate_all_languages.sh ../data/aggregates/en_anti.txt  path/to/output/folder/
 
+## Adding an MT system
+1. Translate the file in `data/aggregates/en.txt` to the languages in our evaluation method.
+2. Put the transalations in `translations/your-mt-system/en-targetLanguage.txt` where each sentence is in a new line, which has the following format `original-sentence ||| translated sentence`. See [this file](translations/aws/en-fr.txt) for an example.
+3. Add your translator in the `mt_systems` enumeration in the [evaluation script](../scripts/evaluate_all_languages.sh)
 
-## Extending this framework
-
-### Adding an MT system
-
-### Adding a language
