@@ -1,6 +1,6 @@
 # Evaluating Gender Bias in Machine Translation
 
-**NOTE: this repo is a little bit messy, will be organized and cleaned in the next couple of weeks **
+**NOTE**: this repo is a little bit messy, will be organized and cleaned in the next couple of weeks
 
 This repo contains code and data for reproducing the experiments in "Evaluating Gender Bias in Machine Translation" (Stanovsky et al., 2019).
 
