@@ -8,7 +8,6 @@ out_folder=$2
 
 
 langs=("ar" "uk" "he" "ru" "it" "fr" "es" "de")
-langs=("de")
 mt_systems=("sota" "aws" "bing" "google" "systran" )
 
 
