@@ -42,6 +42,7 @@ class GenderedArticlePredictor:
         """
         self.lang = lang
         self.cache = {}    # Store calculated professions genders
+        import pdb
         self.nlp = spacy.load(lang, disable = ["parser", "ner"])
         self.get_determiners = determiner_func
         self.exceptions = exceptions

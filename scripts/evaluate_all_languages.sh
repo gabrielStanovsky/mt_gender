@@ -8,7 +8,6 @@ out_folder=$2
 
 
 langs=("ar" "uk" "he" "ru" "it" "fr" "es" "de")
-langs=("de")
 mt_systems=("sota" "aws" "bing" "google" "systran" )
 
 
@@ -40,7 +39,7 @@ do
         mkdir -p $out_folder/$trans_sys
         out_file=$out_folder/$trans_sys/$lang.log
         echo "Evaluating $lang into $out_file"
-        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys > $out_file
+        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys # > $out_file
     done
 done
 
