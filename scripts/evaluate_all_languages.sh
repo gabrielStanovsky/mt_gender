@@ -39,7 +39,7 @@ do
         mkdir -p $out_folder/$trans_sys
         out_file=$out_folder/$trans_sys/$lang.log
         echo "Evaluating $lang into $out_file"
-        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys > $out_file
+        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys # > $out_file
     done
 done
 

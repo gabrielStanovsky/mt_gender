@@ -20,6 +20,7 @@ mkdir -p ../data/human/$lang
 
 # Translate
 trans_fn=../translations/$trans_sys/$prefix.txt
+echo "!!! $trans_fn"
 if [ ! -f $trans_fn ]; then
     python translate.py --trans=$trans_sys --in=./tmp.in --src=en --tgt=$2 --out=$trans_fn
 else
@@ -28,7 +29,7 @@ fi
 
 # Align
 align_fn=forward.$prefix.align
-../../fast_align/build/fast_align -i $trans_fn  -d -o -v > $align_fn
+$FAST_ALIGN_BASE/build/fast_align -i $trans_fn  -d -o -v > $align_fn
 
 # Evaluate
 mkdir -p ../data/human/$trans_sys/$lang/

@@ -13,6 +13,7 @@ from tqdm import tqdm
 from collections import Counter
 import pymorphy2
 from pymorphy2.tokenizers import simple_word_tokenize
+from pymorphy2 import dawg
 
 # Local imports
 from languages.util import GENDER, PYMORPH_GENDER_TYPES
@@ -31,7 +32,8 @@ class PymorphPredictor:
         assert lang in ["uk", "ru"]
         self.lang = lang
         self.cache = {}    # Store calculated professions genders
-        self.tagger = pymorphy2.MorphAnalyzer(lang = self.lang)
+        dawg.PrefixMatcher = dawg.PythonPrefixMatcher
+        self.tagger = pymorphy2.MorphAnalyzer(lang = lang)
 
     def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
         """
