@@ -32,17 +32,19 @@ GERMAN_EXCEPTION = {"nurse": GENDER.female,
                     "the nurse": GENDER.female}
 
 
-class GermanPredictor:
+class GenderedArticlePredictor:
     """
-    German gender predictor
+    Gendered article predictor, assumes spacy support.
     """
-    def __init__(self):
+    def __init__(self, lang, determiner_func, exceptions):
         """
         Init spacy for the specified language code.
         """
-        self.lang = "de"
+        self.lang = lang
         self.cache = {}    # Store calculated professions genders
-        self.nlp = spacy.load("de", disable = ["parser", "ner"])
+        self.nlp = spacy.load(lang, disable = ["parser", "ner"])
+        self.get_determiners = determiner_func
+        self.exceptions = exceptions
 
     def get_gender(self, profession: str, translated_sent, entity_index, ds_entry) -> GENDER:
         """
@@ -50,15 +52,13 @@ class GermanPredictor:
         """
         gold, src_index, src_sent, src_profession = ds_entry
         src_profession = src_profession.lower()
-        if src_profession in GERMAN_EXCEPTION:
-            return GERMAN_EXCEPTION[src_profession]
-    
+        if src_profession in self.exceptions:
+            return self.exceptions[src_profession]
         if entity_index == -1:
             return GENDER.male
         words = [word.text for word in self.nlp(translated_sent)]
         profession_words = [word.text for word in self.nlp(profession)]
         if any([word.endswith("in") for word in profession_words]):
-#            pdb.set_trace()
             return GENDER.female
         dets = self.get_determiners(words)
         if len(dets) < 2:
@@ -66,36 +66,29 @@ class GermanPredictor:
         if len(dets) == 0:
             return GENDER.male
         closest_det = min(dets, key = lambda elem: abs(elem[0] - entity_index))
-        identified_gender = DE_DETERMINERS[closest_det[1]]
+        identified_gender = closest_det[2]
         return identified_gender
 
-    def get_determiners(self, words):
-        """
-        Get a list of (index, determiners)
-        given a list of words.
-        """
-        determiners = [(word_ind, word.lower()) for (word_ind, word) in enumerate(words)
-                       if word.lower() in DE_DETERMINERS]
-        return determiners
+def get_german_determiners(words):
+    """
+    Get a list of (index, determiner, gender)
+    given a list of words.
+    """
+    determiners = []
+    for (word_ind, word) in enumerate(words):
+        word = word.lower()
+        if word in DE_DETERMINERS:
+            determiners.append((word_ind, word, DE_DETERMINERS[word]))
+    return determiners
 
-    def _get_gender(self, profession: str) -> GENDER:
-        """
-        Predict gender, without using cache
-        """
-        if not profession.strip():
-            # Empty string
-            return GENDER.unknown
+def get_french_determiners(words):
+    """
+    Get a list of (index, determiner, gender)
+    given a list of words.
+    """
+    pdb.set_trace()
+    determiners = []
 
-        toks = self.nlp(profession)
-        observed_genders = [gender for gender in map(get_gender_from_token, toks)
-                            if gender is not None]
-
-        if not observed_genders:
-            # No observed gendered words - return neutral
-            return GENDER.neutral
-
-        # Return the most commonly observed gender
-        return Counter(observed_genders).most_common()[0][0]
 
 if __name__ == "__main__":
     # Parse command line arguments

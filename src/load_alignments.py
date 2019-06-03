@@ -15,7 +15,9 @@ import csv
 
 # Local imports
 from languages.spacy_support import SpacyPredictor
-from languages.german import GermanPredictor
+# from languages.german import GermanPredictor
+from languages.gendered_article import GenderedArticlePredictor, \
+    get_german_determiners, GERMAN_EXCEPTION, get_french_determiners
 from languages.pymorph_support import PymorphPredictor
 from languages.semitic_languages import HebrewPredictor, ArabicPredictor
 from evaluate import evaluate_bias
@@ -29,7 +31,7 @@ LANGAUGE_PREDICTOR = {
     "uk": lambda: PymorphPredictor("uk"),
     "he": lambda: HebrewPredictor(),
     "ar": lambda: ArabicPredictor(),
-    "de": lambda: GermanPredictor()
+    "de": lambda: GenderedArticlePredictor("de", get_german_determiners, GERMAN_EXCEPTION)
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:
@@ -57,7 +59,7 @@ def get_translated_professions(alignment_fn: str, ds: List[List[str]], bitext: L
     """
     # Load files and data structures
     ds_src_sents = list(map(itemgetter(2), ds))
-    bitext_src_sents = list(map(itemgetter(0), bitext))
+    bitext_src_sents = [src_sent for ind, (src_sent, tgt_sent) in bitext]
 
     # Sanity checks
     assert len(ds) == len(bitext)
@@ -66,31 +68,47 @@ def get_translated_professions(alignment_fn: str, ds: List[List[str]], bitext: L
     if len(mismatched) != 0:
         raise AssertionError
 
-    bitext = [[sent.split() for sent in line]
-              for line in bitext]
+    bitext = [(ind, (src_sent.split(), tgt_sent.split()))
+              for ind, (src_sent, tgt_sent) in bitext]
 
     src_indices = list(map(get_src_indices, ds))
 
-    alignments = []
+    full_alignments = []
     for line in open(align_fn):
         cur_align = defaultdict(list)
         for word in line.split():
             src, tgt = word.split("-")
             cur_align[int(src)].append(int(tgt))
-        alignments.append(cur_align)
+        full_alignments.append(cur_align)
+
+
+    bitext_inds = [ind for ind, _ in bitext]
+
+    alignments = []
+    for ind in bitext_inds:
+        alignments.append(full_alignments[ind])
+
 
     assert len(bitext) == len(alignments)
     assert len(src_indices) == len(alignments)
 
     translated_professions = []
+    target_indices = []
 
-    for (src_sent, tgt_sent), alignment, cur_indices in tqdm(zip(bitext, alignments, src_indices)):
+    for (_, (src_sent, tgt_sent)), alignment, cur_indices in tqdm(zip(bitext, alignments, src_indices)):
+        # cur_translated_profession = " ".join([tgt_sent[cur_tgt_ind]
+        #                                       for src_ind in cur_indices
+        #                                       for cur_tgt_ind in alignment[src_ind]])
+        cur_tgt_inds = ([cur_tgt_ind
+                         for src_ind in cur_indices
+                         for cur_tgt_ind in alignment[src_ind]])
+
         cur_translated_profession = " ".join([tgt_sent[cur_tgt_ind]
-                                              for src_ind in cur_indices
-                                              for cur_tgt_ind in alignment[src_ind]])
+                                              for cur_tgt_ind in cur_tgt_inds])
+        target_indices.append(cur_tgt_inds)
         translated_professions.append(cur_translated_profession)
 
-    return translated_professions
+    return translated_professions, target_indices
 
 
 def output_predictions(target_sentences, gender_predictions, out_fn):
@@ -104,6 +122,18 @@ def output_predictions(target_sentences, gender_predictions, out_fn):
         writer.writerow(["Sentence", "Predicted gender"])
         for sent, gender in zip(target_sentences, gender_predictions):
             writer.writerow([sent, str(gender).split(".")[1]])
+
+def align_bitext_to_ds(bitext, ds):
+    """
+    Return a subset of bitext that's aligned to ds.
+    """
+    bitext_dict = dict([(src, (ind, tgt)) for ind, (src, tgt) in enumerate(bitext)])
+    new_bitext = []
+    for entry in ds:
+        en_sent = entry[2]
+        ind, tgt_sent = bitext_dict[en_sent]
+        new_bitext.append((ind, (en_sent, tgt_sent)))
+    return new_bitext
 
 if __name__ == "__main__":
     # Parse command line arguments
@@ -123,20 +153,23 @@ if __name__ == "__main__":
     gender_predictor = LANGAUGE_PREDICTOR[lang]()
 
     ds = [line.strip().split("\t") for line in open(ds_fn, encoding = "utf8")]
-    bitext = [line.strip().split(" ||| ")
+    full_bitext = [line.strip().split(" ||| ")
               for line in open(bi_fn, encoding = "utf8")]
+    bitext = align_bitext_to_ds(full_bitext, ds)
 
-    translated_profs = get_translated_professions(align_fn, ds, bitext)
+    translated_profs, tgt_inds = get_translated_professions(align_fn, ds, bitext)
+    assert(len(translated_profs) == len(tgt_inds))
 
+    target_sentences = [tgt_sent for (ind, (src_sent, tgt_sent)) in bitext]
 
-    gender_predictions = [gender_predictor.get_gender(prof, translated_sent, entity_index)
-                          for prof, translated_sent, entity_index
+    gender_predictions = [gender_predictor.get_gender(prof, translated_sent, entity_index, ds_entry)
+                          for prof, translated_sent, entity_index, ds_entry
                           in tqdm(zip(translated_profs,
-                                      map(itemgetter(1), bitext),
-                                      map(int, map(itemgetter(1), ds))))]
+                                      target_sentences,
+                                      map(lambda ls:min(ls, default = -1), tgt_inds),
+                                      ds))]
 
     # Output predictions
-    target_sentences = list(map(itemgetter(1), bitext))
     output_predictions(target_sentences, gender_predictions, out_fn)
 
     d = evaluate_bias(ds, gender_predictions)

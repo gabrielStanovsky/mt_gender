@@ -44,7 +44,7 @@ if __name__ == "__main__":
         if gold_sent != pred_sent:
             raise AssertionError(f"Mismatch:\n {gold_sent} \n {pred_sent}")
         gold_gender = gold_gender.strip().lower()
-        if gold_gender not in ["m", "f", "n"]:
+        if (gold_gender not in ["m", "f", "n"]) or (valid_flag.lower == "n"):
             logging.warning(f"Missing gold annotation: {gold_row}")
             continue
 

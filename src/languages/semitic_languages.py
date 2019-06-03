@@ -29,7 +29,7 @@ class HebrewPredictor:
         self.cache = {}    # Store calculated professions genders
         self.tokenizer = Hebrew().tokenizer
 
-    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
@@ -68,7 +68,7 @@ class ArabicPredictor:
         self.cache = {}    # Store calculated professions genders
         self.tokenizer = lambda sent: sent.split() # Might be better with a dedicated Arabic tokenizer
 
-    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
         """
         Predict gender of an input profession.
         """

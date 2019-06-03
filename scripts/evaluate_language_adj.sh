@@ -11,7 +11,7 @@ set -e
 dataset=$1
 lang=$2
 trans_sys=$3
-prefix=en-$lang
+prefix=adj.en-$lang
 
 # Prepare files for translation
 cut -f3 $dataset > ./tmp.in            # Extract sentences

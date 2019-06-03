@@ -32,10 +32,12 @@ class SpacyPredictor:
         self.cache = {}    # Store calculated professions genders
         self.nlp = spacy.load(self.lang, disable = ["parser", "ner"])
 
-    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
+        if translated_sent == "Il venditore ha parlato con l'insegnante e l'ha invitata a cena.":
+            pass
         if profession not in self.cache:
             self.cache[profession] = self._get_gender(profession)
 

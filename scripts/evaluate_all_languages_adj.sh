@@ -3,14 +3,18 @@
 #   evaluate_all_languages.sh <corpus> <output-folder>
 set -e
 
-corpus_fn=$1
+corpus_fn=$1 # ../data/aggregates/en.txt
 out_folder=$2
 
 
-langs=("ar" "uk" "he" "ru" "it" "fr" "es" "de")
-langs=("de")
-mt_systems=("sota" "aws" "bing" "google" "systran" )
+# Problematic (no morphology?): "de" "pt"
+# Slightly less problematic (different morph tags?):  "nl"
 
+
+langs=("ar" "uk" "he" "ru" "it" "fr" "es" "de")
+#langs=("de")
+#mt_systems=("sota" "aws" "bing" "google" "systran" )
+mt_systems=("google" "bing")
 
 # Make sure systran has all translations
 # for lang in ${langs[@]}
@@ -40,7 +44,7 @@ do
         mkdir -p $out_folder/$trans_sys
         out_file=$out_folder/$trans_sys/$lang.log
         echo "Evaluating $lang into $out_file"
-        ../scripts/evaluate_language.sh $corpus_fn $lang $trans_sys > $out_file
+        ../scripts/evaluate_language_adj.sh $corpus_fn $lang $trans_sys > $out_file
     done
 done
 

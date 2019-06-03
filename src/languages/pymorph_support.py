@@ -33,7 +33,7 @@ class PymorphPredictor:
         self.cache = {}    # Store calculated professions genders
         self.tagger = pymorphy2.MorphAnalyzer(lang = self.lang)
 
-    def get_gender(self, profession: str, translated_sent = None, entity_index = None) -> GENDER:
+    def get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
         """
         Predict gender of an input profession.
         """
