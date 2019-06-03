@@ -1,18 +1,21 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Evaluating Gender Bias in Machine Translation](#evaluating-gender-bias-in-machine-translation)
-  - [Requirements](#requirements)
-  - [Install](#install)
-  - [Running our experiments](#running-our-experiments)
-  - [Adding an MT system](#adding-an-mt-system)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Evaluating Gender Bias in Machine Translation
 
 This repo contains code and data for reproducing the experiments in "Evaluating Gender Bias in Machine Translation" (Stanovsky et al., 2019).
+
+## Citing
+
+```
+@InProceedings{Stanovsky2019ACL,
+  author    = {Gabriel Stanovsky and Noah A. Smith and Luke Zettlemoyer},
+  title     = {Evaluating Gender Bias in Machine Translation},
+  booktitle = {ACL},
+  month     = {June},
+  year      = {2019},
+  address   = {Florence, Italy},
+  publisher = {Association for Computational Linguistics},
+  pages     = {(to appear)},
+}
+```
 
 ## Requirements
 * [fast_align](https://github.com/clab/fast_align) -- install and point an environment variable called FAST_ALIGN_BASE to its root folder (the one containing a `build` folder).
