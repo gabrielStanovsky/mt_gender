@@ -27,7 +27,7 @@ This repo contains code and data for reproducing the experiments in [Evaluating 
 This is the entry point for all our experiments: [scripts/evaluate_all_languages.sh](scripts/evaluate_all_languages.sh).
 Run all of the following from the  `src` folder. Output logs will be written to the given
 path.
-* For the general accuracy number, run:
+* For the general gender accuracy number, run:
 
         ../scripts/evaluate_all_languages.sh ../data/aggregates/en.txt  path/to/output/folder/
 
