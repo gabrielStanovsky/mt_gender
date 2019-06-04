@@ -18,7 +18,7 @@ This repo contains code and data for reproducing the experiments in [Evaluating 
 ```
 
 ## Requirements
-* [fast_align](https://github.com/clab/fast_align): install and point an environment variable called FAST_ALIGN_BASE to its root folder (the one containing a `build` folder).
+* [fast_align](https://github.com/clab/fast_align): install and point an environment variable called FAST_ALIGN_BASE to its root folder (the one containing the `build` folder).
 
 ## Install
 `./install.sh`
