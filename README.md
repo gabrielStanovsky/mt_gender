@@ -1,6 +1,6 @@
 # Evaluating Gender Bias in Machine Translation
 
-This repo contains code and data for reproducing the experiments in [Evaluating Gender Bias in Machine Translation](https://arxiv.org/abs/1906.00591) [Gabriel Stanovsky](https://gabrielstanovsky.github.io/), [Noah A. Smith](https://homes.cs.washington.edu/~nasmith/), and [Luke Zettlemoyer](https://www.cs.washington.edu/people/faculty/lsz), ACL 2019).
+This repo contains code and data for reproducing the experiments in [Evaluating Gender Bias in Machine Translation](https://arxiv.org/abs/1906.00591) [Gabriel Stanovsky](https://gabrielstanovsky.github.io/), [Noah A. Smith](https://homes.cs.washington.edu/~nasmith/), and [Luke Zettlemoyer](https://www.cs.washington.edu/people/faculty/lsz, ACL 2019).
 
 ## Citing
 
