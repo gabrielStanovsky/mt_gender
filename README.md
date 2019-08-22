@@ -12,8 +12,7 @@ This repo contains code and data for reproducing the experiments in [Evaluating 
   month     = {June},
   year      = {2019},
   address   = {Florence, Italy},
-  publisher = {Association for Computational Linguistics},
-  pages     = {(to appear)},
+  publisher = {Association for Computational Linguistics}
 }
 ```
 
