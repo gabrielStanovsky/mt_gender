@@ -21,6 +21,7 @@ from languages.gendered_article import GenderedArticlePredictor, \
 from languages.pymorph_support import PymorphPredictor
 from languages.semitic_languages import HebrewPredictor, ArabicPredictor
 from evaluate import evaluate_bias
+from languages.czech import CzechPredictor
 #=-----
 
 LANGAUGE_PREDICTOR = {
@@ -31,7 +32,8 @@ LANGAUGE_PREDICTOR = {
     "uk": lambda: PymorphPredictor("uk"),
     "he": lambda: HebrewPredictor(),
     "ar": lambda: ArabicPredictor(),
-    "de": lambda: GenderedArticlePredictor("de", get_german_determiners, GERMAN_EXCEPTION)
+    "de": lambda: GenderedArticlePredictor("de", get_german_determiners, GERMAN_EXCEPTION),
+    "cs": lambda: CzechPredictor(),
 }
 
 def get_src_indices(instance: List[str]) -> List[int]:
