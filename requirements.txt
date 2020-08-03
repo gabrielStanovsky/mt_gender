@@ -7,3 +7,5 @@ git+https://github.com/kmike/pymorphy2
 pymorphy2-dicts-ru
 pymorphy2-dicts-uk
 
+# Czech parser
+ufal.morphodita
