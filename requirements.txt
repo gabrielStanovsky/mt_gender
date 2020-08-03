@@ -1,6 +1,7 @@
 docopt
 tqdm
 spacy
+mosestokenizer
 
 # Russian & Ukranian morphology
 git+https://github.com/kmike/pymorphy2
