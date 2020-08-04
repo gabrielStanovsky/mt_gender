@@ -56,7 +56,7 @@ class CzechPredictor:
             token = self.tokens[i]
             
             substring = text[token.start : token.start + token.length]
-            if substring not in profession or len(substring) < 4:
+            if substring not in profession:
                 # morphodita makes its tokenization ... thus skip most tokens in sentence and look only for profession
                 continue
 
