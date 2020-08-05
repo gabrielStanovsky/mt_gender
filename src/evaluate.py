@@ -36,6 +36,9 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     correct_cnt = defaultdict(lambda: 0)
 
     for (gold_gender, word_ind, sent, profession), pred_gender in zip(ds, predicted):
+        if pred_gender == GENDER.ignore:
+            continue # skip analysis of ignored words
+
         gold_gender = WB_GENDER_TYPES[gold_gender]
 
         sent = sent.split()
