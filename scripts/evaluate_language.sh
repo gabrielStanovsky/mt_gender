@@ -27,12 +27,9 @@ else
     echo "Not translating since translation file exists: $trans_fn"
 fi
 
-# Tokenize
-python tokenize_testset.py $trans_fn $lang > tmp_trans_fn 
-
 # Align
 align_fn=forward.$prefix.align
-$FAST_ALIGN_BASE/build/fast_align -i tmp_trans_fn  -d -o -v > $align_fn
+$FAST_ALIGN_BASE/build/fast_align -i $trans_fn -d -o -v > $align_fn
 
 # Evaluate
 mkdir -p ../data/human/$trans_sys/$lang/
