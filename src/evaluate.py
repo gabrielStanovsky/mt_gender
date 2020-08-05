@@ -39,7 +39,7 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
         gold_gender = WB_GENDER_TYPES[gold_gender]
 
         sent = sent.split()
-        profession = profession.lower().replace("the ","")
+        profession = profession.lower()
         if not profession:
             pdb.set_trace()
 
