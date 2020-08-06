@@ -19,6 +19,17 @@ This repo contains code and data for reproducing the experiments in [Evaluating 
 ## Requirements
 * [fast_align](https://github.com/clab/fast_align): install and point an environment variable called `FAST_ALIGN_BASE` to its root folder (the one containing the `build` folder).
 
+### Evaluation in Polish
+
+The additonal steps are required:
+
+* Downaload and install Morfeusz2. Bindings for python and the instruction are available at: http://morfeusz.sgjp.pl/download/en
+* Download custom spaCy model (its name should begin with `pl_spacy_model_morfeusz`) from http://zil.ipipan.waw.pl/SpacyPL
+* Install downloaded spaCy model:
+
+      python -m pip install PATH/TO/pl_spacy_model_morfeusz-x.x.x.tar.gz
+
+
 ## Install
 `./install.sh`
 
