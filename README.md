@@ -21,10 +21,9 @@ This repo contains code and data for reproducing the experiments in [Evaluating 
 
 ### Evaluation in Polish
 
-The additonal steps are required:
 
-* Downaload and install Morfeusz2. Bindings for python and the instruction are available at: http://morfeusz.sgjp.pl/download/en
-* Download custom spaCy model (its name should begin with `pl_spacy_model_morfeusz`) from http://zil.ipipan.waw.pl/SpacyPL
+* Download and install Morfeusz2. Bindings for python and instruction are available at: http://morfeusz.sgjp.pl/download/en
+* Download custom spaCy model (name should being with `pl_spacy_model_morfeusz`) from http://zil.ipipan.waw.pl/SpacyPL
 * Install downloaded spaCy model:
 
       python -m pip install PATH/TO/pl_spacy_model_morfeusz-x.x.x.tar.gz
