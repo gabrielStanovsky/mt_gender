@@ -65,14 +65,8 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     prec_female = round((correct_cnt[GENDER.female] / pred_cnt[GENDER.female]) * 100, 1)
     f1_female = round(calc_f1(prec_female, recall_female), 1)
 
-    print(f"#total = {all_total}; \n acc = {acc}%; f1_male = {f1_male}% (p: {prec_male} / r: {recall_male}); f1_female = {f1_female}% (p: {prec_female} / r: {recall_female})")
-    print("Gold distribution: male: {}% ({}), female: {}% ({}), neutral: {}% ({})".format(round(percentage(total[GENDER.male], all_total), 1), total[GENDER.male],
-                                                                                          round(percentage(total[GENDER.female], all_total),2), total[GENDER.female],
-                                                                                          round(percentage(total[GENDER.neutral], all_total),2), total[GENDER.unknown]))
+    print(f"{acc},{f1_male},{f1_female}")
 
-    print("Predictions: male: {}%, female: {}%, neutral: {}%".format(round((pred_cnt[GENDER.male] / all_total) * 100, 1),
-                                                                     round((pred_cnt[GENDER.female] / all_total) * 100, 1),
-                                                                     round((pred_cnt[GENDER.neutral] / all_total) * 100, 1)))
 
     male_prof = [prof for prof, vals in prof_dict.items()
                  if all(pred_gender == GENDER.male
@@ -92,17 +86,6 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     amb_prof = [prof for prof, vals in prof_dict.items()
                 if len(set(map(itemgetter(0), vals))) != 1]
 
-
-
-    print(f"male professions = {male_prof}")
-    print(f"female professions = {female_prof}")
-    print(f"neutral professions = {neutral_prof}")
-    print(f"ambiguous professions = {amb_prof}")
-
-
-    pprint(conf_dict)
-
-    logging.info("DONE")
 
 
 def percentage(part, total):
