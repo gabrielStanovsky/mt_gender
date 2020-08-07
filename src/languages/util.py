@@ -51,6 +51,20 @@ PYMORPH_GENDER_TYPES = {
     None: GENDER.neutral
 }
 
+MORFEUSZ_GENDER_TYPES = {
+    "m1": GENDER.male,
+    "m2": GENDER.male,
+    "m3": GENDER.male,
+    "m1.m2": GENDER.male,
+    "m1.m2.m3": GENDER.male,
+    "f": GENDER.female,
+    "m1.m2.m3.n": GENDER.neutral,
+    "n": GENDER.neutral,
+    None: GENDER.neutral
+}
+
+MORFEUSZ_GENDER_TAG_POSITION = 2
+
 
 def get_morphology_dict(token: Token) -> Dict:
     """
