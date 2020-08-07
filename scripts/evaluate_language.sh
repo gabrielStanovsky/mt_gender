@@ -29,7 +29,7 @@ fi
 
 # Align
 align_fn=forward.$prefix.align
-$FAST_ALIGN_BASE/build/fast_align -i $trans_fn  -d -o -v > $align_fn
+$FAST_ALIGN_BASE/build/fast_align -i $trans_fn -d -o -v > $align_fn
 
 # Evaluate
 mkdir -p ../data/human/$trans_sys/$lang/

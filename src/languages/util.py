@@ -22,11 +22,13 @@ from typing import Dict
 class GENDER(Enum):
     """
     Enumerate possible genders.
+    Ignore option resolves to words that should be ignored in particular language
     """
     male = 0
     female = 1
     neutral = 2
     unknown = 3
+    ignore = 4 
 
 
 SPACY_GENDER_TYPES = {
