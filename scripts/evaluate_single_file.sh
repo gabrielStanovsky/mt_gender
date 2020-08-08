@@ -13,7 +13,11 @@ log=$4
 
 # Align
 align_fn=${pred}.forward.align
-$FAST_ALIGN_BASE/build/fast_align -i $pred  -d -o -v > $align_fn
+if [ ! -f $align_fn ]; then
+    $FAST_ALIGN_BASE/build/fast_align -i $pred  -d -o -v > $align_fn
+else
+    echo "Skipping alignment since file exists: $align_fn"
+fi
 
 # Evaluate
 out_fn=${pred}.pred.csv

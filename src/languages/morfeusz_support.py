@@ -5,7 +5,6 @@
 from collections import Counter
 import logging
 from docopt import docopt
-import morfeusz2
 import spacy
 from spacy.tokens.token import Token
 
@@ -23,6 +22,7 @@ class MorfeuszPredictor:
         https://github.com/ipipan/spacy-pl
         http://morfeusz.sgjp.pl/
         """
+        import morfeusz2
         self.lang = "pl"
         self.cache = {}    # Store calculated professions
         if spacy.util.is_package('pl_spacy_model_morfeusz_big'):
