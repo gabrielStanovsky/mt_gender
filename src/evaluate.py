@@ -35,11 +35,16 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     pred_cnt = defaultdict(lambda: 0)
     correct_cnt = defaultdict(lambda: 0)
 
+    count_unknowns = defaultdict(lambda: 0)
+
     for (gold_gender, word_ind, sent, profession), pred_gender in zip(ds, predicted):
         if pred_gender == GENDER.ignore:
             continue # skip analysis of ignored words
 
         gold_gender = WB_GENDER_TYPES[gold_gender]
+
+        if pred_gender == GENDER.unknown:
+            count_unknowns[gold_gender] += 1
 
         sent = sent.split()
         profession = profession.lower()
@@ -69,7 +74,9 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     f1_female = round(calc_f1(prec_female, recall_female), 1)
 
     print(f"{acc},{f1_male},{f1_female}")
-
+    print("Unknown male: {}".format(count_unknowns[GENDER.male]))
+    print("Unknown female: {}".format(count_unknowns[GENDER.female]))
+    print("Unknown neutral: {}".format(count_unknowns[GENDER.neutral]))
 
     male_prof = [prof for prof, vals in prof_dict.items()
                  if all(pred_gender == GENDER.male
