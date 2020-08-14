@@ -44,8 +44,8 @@ class HebrewPredictor:
         Super hacky, based on the last letter.
         """
         if not profession.strip():
-            # Empty string
-            return GENDER.female
+            # Empty string is an error in alignment
+            return GENDER.unknown
 
         toks = [w.text for w in self.tokenizer(profession)
                 if w.text != "את"]
@@ -83,8 +83,8 @@ class ArabicPredictor:
         Super hacky, based on the last letter being tāʾ marbūṭa.
         """
         if not profession.strip():
-            # Empty string
-            return GENDER.female
+            # Empty string is an error in alignment
+            return GENDER.unknown
 
         toks = self.tokenizer(profession)
 
