@@ -52,13 +52,10 @@ class MorfeuszPredictor:
 
         gender = self._get_gender(profession, translated_sent, gold_gender, src_profession)
 
-        # if self.cache[profession] == GENDER.unknown:
-        #     logging.warn(f"Gender unkown for {profession}\nin sentence: `{translated_sent}`")
-        #     logging.warn(f"English profession: {ds_entry[3]}")
 
         return gender
 
-    def _get_gender(self, profession: str, translated_sent: str, gold_gender: GENDER, src_profession: str) -> GENDER:
+    def _get_gender(self, profession: str, translated_sent: str, gold_gender: str, src_profession: str) -> GENDER:
         # initially try to resolve problem based on exact manual rules
         gender = self._get_gender_manual_rules(translated_sent, gold_gender, src_profession)
 
@@ -67,7 +64,7 @@ class MorfeuszPredictor:
 
         return self._get_gender_automatically(profession)
 
-    def _get_gender_manual_rules(self, translated_sent: str, gold_gender: GENDER, src_profession: str) -> GENDER:
+    def _get_gender_manual_rules(self, translated_sent: str, gold_gender: str, src_profession: str) -> GENDER:
         # Rules defined and checked by Tomasz Limisiewicz
 
         translated_sent = translated_sent.lower()
