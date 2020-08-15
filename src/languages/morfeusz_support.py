@@ -9,7 +9,7 @@ import spacy
 from spacy.tokens.token import Token
 import re
 
-from languages.util import GENDER, MORFEUSZ_GENDER_TYPES, MORFEUSZ_GENDER_TAG_POSITION
+from languages.util import GENDER, MORFEUSZ_GENDER_TYPES, MORFEUSZ_GENDER_TAG_POSITION, WB_GENDER_TYPES
 
 
 class MorfeuszPredictor:
@@ -47,17 +47,16 @@ class MorfeuszPredictor:
             src_profession = ' '.join(src_profession_split[1:])
 
         if src_profession in ('child', 'someone', 'advisee', 'mover') \
-                or gold_gender == GENDER.neutral:
+                or gold_gender == 'neutral':
             return GENDER.ignore
 
-        if profession not in self.cache or not profession:
-            self.cache[profession] = self._get_gender(profession, translated_sent, gold_gender, src_profession)
+        gender = self._get_gender(profession, translated_sent, gold_gender, src_profession)
 
         # if self.cache[profession] == GENDER.unknown:
         #     logging.warn(f"Gender unkown for {profession}\nin sentence: `{translated_sent}`")
         #     logging.warn(f"English profession: {ds_entry[3]}")
 
-        return self.cache[profession]
+        return gender
 
     def _get_gender(self, profession: str, translated_sent: str, gold_gender: GENDER, src_profession: str) -> GENDER:
         # initially try to resolve problem based on exact manual rules
@@ -86,8 +85,6 @@ class MorfeuszPredictor:
                         not re.search("(pani|panią) " + form + "[^a-z]", translated_sent):
                     found_gender = GENDER.male
                     break
-        else:
-            logging.warn(f"{male} not in variants")
 
         if female in self.variants:
             for form in self.variants[female]:
@@ -167,7 +164,8 @@ class MorfeuszPredictor:
                            'panią analityk', 'analityczką', 'analityczce'],
         'analyst-male': ['analityka', 'analitykiem', 'analityk', 'analitykowi', 'analityku'],
         'appraiser-female': ['pani rzeczoznawco', 'panią rzeczoznawcę', 'pani rzeczoznawcy', 'panią rzeczoznawcą',
-                             'pani rzeczoznawca'],
+                             'pani rzeczoznawca', 'rzeczoznawczyni', 'rzeczoznawczynią', 'rzeczoznawczynię',
+                             'rzeczoznawczynio'],
         'appraiser-male': ['rzeczoznawco', 'rzeczoznawcę', 'rzeczoznawcy', 'rzeczoznawcą', 'rzeczoznawca'],
         'architect-female': ['architektko', 'pani architekt', 'architektką', 'panią architekt', 'architektki',
                              'architektce', 'architektkę', 'architektka'],
@@ -176,22 +174,21 @@ class MorfeuszPredictor:
                              'pomocniczce', 'pomocniczki', 'pomocniczko', 'asystentce', 'asystentką', 'pomocniczka'],
         'assistant-male': ['asystencie', 'pomocniku', 'pomocnikiem', 'asystentowi', 'pomocnika', 'asystent',
                            'asystentem', 'asystenta', 'pomocnikowi', 'pomocnik'],
-        'attendant-female': ['opiekunce', 'asystentko', 'pracownico', 'pracownicą', 'uczestniczkę', 'recepcjonistką',
+        'attendant-female': ['opiekunce', 'asystentko', 'uczestniczkę',
                              'towarzyszki', 'stewardessą', 'uczestniczce', 'asystentka', 'stewardessę', 'asystentce',
-                             'asystentką', 'recepcjonistka', 'stewardessy', 'pracownicę', 'opiekunkę', 'towarzyszce',
+                             'asystentką', 'recepcjonistka', 'stewardessy', 'opiekunkę', 'towarzyszce',
                              'towarzyszką', 'stewardesą', 'uczestniczką', 'stewardeso', 'stewardesa', 'opiekunki',
-                             'recepcjonistko', 'stewardesie', 'asystentkę', 'recepcjonistce', 'uczestniczki',
-                             'stewardesso', 'pracownicy', 'uczestniczka', 'stewardessa', 'stewardesę', 'recepcjonistki',
+                             'stewardesie', 'asystentkę', 'uczestniczki',
+                             'stewardesso', 'pracownicy', 'uczestniczka', 'stewardessa', 'stewardesę',
                              'towarzyszko', 'stewardesy', 'uczestniczko', 'towarzyszkę', 'opiekunka', 'opiekunko',
-                             'opiekunką', 'stewardessie', 'asystentki', 'recepcjonistkę', 'towarzyszka', 'pracownica'],
-        'attendant-male': ['opiekun', 'asystencie', 'pracownikiem', 'opiekuna', 'służącym', 'pracowniku', 'pomocnika',
-                           'asystent', 'uczestniku', 'służącemu', 'służącego', 'pracownika', 'służący', 'stewarda',
-                           'asystentem', 'pomocnik', 'steward', 'stewardowi', 'uczestnik', 'opiekunem', 'uczestnikowi',
-                           'pracownikowi', 'pomocniku', 'pomocnikiem', 'asystentowi', 'stewardem', 'pracownik',
-                           'uczestnikiem', 'asystenta', 'uczestnika', 'stewardzie', 'opiekunie', 'pomocnikowi',
-                           'opiekunowi'],
-        'auditor-female': ['pani rzecoznawca', 'panią kontroler', 'biegła', 'audytorko', 'kontrolerkę', 'audytorki',
-                           'kontrolerki', 'panią rzecoznawca', 'pani kontroler', 'kontrolerka', 'audytorką',
+                             'opiekunką', 'stewardessie', 'asystentki', 'towarzyszka'],
+        'attendant-male': ['opiekun', 'asystencie', 'opiekuna', 'służącym', 'pomocnika','asystent', 'uczestniku',
+                           'służącemu', 'służącego', 'pracownika', 'służący', 'stewarda', 'asystentem', 'pomocnik',
+                           'steward', 'stewardowi', 'uczestnik', 'opiekunem', 'uczestnikowi', 'pomocniku',
+                           'pomocnikiem', 'asystentowi', 'stewardem', 'uczestnikiem', 'asystenta', 'uczestnika',
+                           'stewardzie', 'opiekunie', 'pomocnikowi', 'opiekunowi'],
+        'auditor-female': ['panią kontroler', 'biegła', 'audytorko', 'kontrolerkę', 'audytorki',
+                           'kontrolerki', 'pani kontroler', 'kontrolerka', 'audytorką',
                            'kontrolerką', 'pani audytor', 'audytorkę', 'pani biegły', 'kontrolerce', 'biegłej',
                            'audytorce', 'audytorka', 'kontrolerko', 'panią audytor', 'biegłą', 'panią biegły'],
         'auditor-male': ['kontrolerowi', 'rewident', 'biegłym', 'audytorem', 'kontrolera', 'rewidenta', 'biegłego',
@@ -253,16 +250,16 @@ class MorfeuszPredictor:
                                      'budowlanemu', 'budowlanego', 'konstruktorem', 'konstruktorze'],
         'cook-female': ['kucharkę', 'kucharki', 'kucharko', 'kucharce', 'kucharką', 'kucharka'],
         'cook-male': ['kucharzowi', 'kucharzu', 'kucharza', 'kucharz', 'kucharzem'],
-        'counselor-female': ['panią konsultant', 'konsultantce', 'doradczyni', 'radną', 'konsultantko', 'panią pedagog',
-                             'konsultantkę', 'konsultantka', 'wychowawczynię', 'doradczynię', 'pani pedagog',
+        'counselor-female': ['panią konsultant', 'konsultantce', 'radną', 'konsultantko', 'panią pedagog',
+                             'konsultantkę', 'konsultantka', 'wychowawczynię', 'pani pedagog',
                              'pani radny', 'radnej', 'wychowawczynią', 'wychowawczyni', 'pani konsultant',
-                             'panią radny', 'konsultantki', 'konsultantką', 'radna', 'doradczynią', 'radczynię',
+                             'panią radny', 'konsultantki', 'konsultantką', 'radna', 'radczynię',
                              'radczynią', 'radczyni'],
-        'counselor-male': ['psychologu', 'doradcy', 'radcy', 'radnym', 'konsultantowi', 'radny', 'konsultanta',
-                           'pedagogowi', 'radnemu', 'pedagog', 'radcę', 'radnego', 'pedagogu', 'psychologowi',
-                           'doradco', 'pedagoga', 'wychowawco', 'psychologiem', 'konsultancie', 'wychowawcę', 'radco',
-                           'pedagogiem', 'doradcę', 'wychowawca', 'psychologa', 'konsultant', 'radca', 'wychowawcą',
-                           'wychowawcy', 'doradca', 'doradcą', 'psycholog', 'radcą', 'konsultantem'],
+        'counselor-male': ['psychologu', 'radcy', 'radnym', 'konsultantowi', 'radny', 'konsultanta',
+                           'pedagogowi', 'radnemu', 'pedagog', 'radcę', 'radnego', 'pedagogu',
+                           'pedagoga', 'wychowawco', 'psychologiem', 'konsultancie', 'wychowawcę', 'radco',
+                           'wychowawca', 'konsultant', 'radca', 'wychowawcą',
+                           'wychowawcy', 'radcą', 'konsultantem'],
         'customer-female': ['klientko', 'klientką', 'klientce', 'klientka', 'klientkę', 'klientki'],
         'customer-male': ['klienta', 'klientem', 'klientowi', 'kliencie', 'klient'],
         'designer-female': ['projektantkę', 'projektantka', 'projektantko', 'projektantki', 'projektantką',
@@ -290,12 +287,10 @@ class MorfeuszPredictor:
                           'wydawczynią'],
         'editor-male': ['wydawca', 'redaktorem', 'edytorowi', 'edytorem', 'wydawco', 'redaktorowi', 'edytora',
                         'redaktor', 'wydawcy', 'redaktorze', 'redaktora', 'wydawcą', 'edytor', 'wydawcę', 'edytorze'],
-        'educator-female': ['nauczycielka', 'panią edukator', 'wychowawczynią', 'pani edukator', 'wychowawczyni',
-                            'nauczycielką', 'nauczycielko', 'nauczycielce', 'wychowawczynię', 'nauczycielkę',
-                            'nauczycielki'],
-        'educator-male': ['wychowawco', 'nauczycielu', 'nauczycielem', 'nauczyciel', 'edukatorowi', 'wychowawcę',
-                          'nauczyciela', 'wychowawca', 'wychowawcy', 'wychowawcą', 'edukator', 'edukatorze',
-                          'edukatorem', 'nauczycielowi', 'edukatora'],
+        'educator-female': ['panią edukator', 'wychowawczynią', 'pani edukator', 'wychowawczyni',
+                            'wychowawczynię'],
+        'educator-male': ['wychowawco', 'edukatorowi', 'wychowawcę', 'wychowawca', 'wychowawcy', 'wychowawcą',
+                          'edukator', 'edukatorze', 'edukatorem',  'edukatora'],
         'electrician-female': ['pani elektryk', 'panią elektryk'],
         'electrician-male': ['elektrykowi', 'elektryka', 'elektryku', 'elektrykiem', 'elektryk'],
         'employee-female': ['pracownicę', 'pracownico', 'pracownicy', 'pracownicą', 'pracownica', 'zatrudniona',
@@ -340,10 +335,8 @@ class MorfeuszPredictor:
         'instructor-male': ['instruktorowi', 'instruktorze', 'instruktor', 'instruktorem', 'instruktora'],
         'investigator-female': ['panią śledczy', 'pani śledczy'],
         'investigator-male': ['śledczym', 'śledczy', 'śledczego', 'śledczemu'],
-        'janitor-female': ['sprzątaczką', 'woźna', 'dozorczynię', 'sprzątaczka', 'dozorczynią', 'woźną', 'woźnej',
-                           'sprzątaczki', 'sprzątaczce', 'sprzątaczko', 'sprzątaczkę', 'dozorczyni'],
-        'janitor-male': ['dozorca', 'woźnemu', 'dozorcy', 'dozorcą', 'sprzątaczem', 'dozorcę', 'woźnego', 'woźny',
-                         'woźnym', 'dozorco', 'sprzątaczowi', 'sprzątacza', 'sprzątaczu', 'sprzątacz'],
+        'janitor-female': ['woźna', 'dozorczynię', 'dozorczynią', 'woźną', 'woźnej', 'dozorczyni'],
+        'janitor-male': ['dozorca', 'woźnemu', 'dozorcy', 'dozorcą', 'dozorcę', 'woźnego', 'woźny', 'woźnym', 'dozorco'],
         'laborer-female': ['pracownicę', 'pracownico', 'pracownicy', 'pracownicą', 'robotnicą', 'pracowniczki',
                            'pracowniczka', 'robotnicę', 'robotnica', 'robotnico', 'pracowniczce', 'robotnicy',
                            'pracownica', 'pracowniczką', 'pracowniczkę', 'pracowniczko'],
@@ -395,12 +388,9 @@ class MorfeuszPredictor:
         'painter-female': ['malarki', 'malarka', 'malarką', 'malarko', 'malarkę', 'malarce'],
         'painter-male': ['malarza', 'malarzem', 'malarzu', 'malarz', 'malarzowi'],
         'paralegal-female': ['paralegalistka', 'paralegalistki', 'paralegalistce', 'paralegalistkę', 'paralegalistką',
-                             'paralegalistko', 'adwokatka', 'adwokatki', 'adwokatce', 'adwokatkę', 'adwokatką', 'adwokatko',
-                             'pani adwokat', 'panią adwokat', 'prawniczka', 'prawniczki', 'prawniczce', 'prawniczkę',
-                             'prawniczką', 'prawniczko'],
+                             'paralegalistko'],
         'paralegal-male': ['paralegalista', 'paralegalisty', 'paralegaliście', 'paralegalistę', 'paralegalistą',
-                           'paralegalisto', 'adwokat', 'adwokata', 'adwokatowi', 'adwokatem', 'adwokacie',
-                           'prawnik', 'prawniku', 'prawnikowi', 'prawnikiem'],
+                           'paralegalisto'],
         'paramedic-female': ['sanitariuszką', 'sanitariuszko', 'ratowniczkę', 'ratowniczko', 'ratowniczce',
                              'sanitariuszkę', 'sanitariuszka', 'ratowniczką', 'ratowniczki', 'ratowniczka',
                              'sanitariuszce', 'sanitariuszki'],
@@ -477,7 +467,8 @@ class MorfeuszPredictor:
         'surgeon-male': ['chirurgiem', 'chirurga', 'chirurg', 'chirurgowi', 'chirurgu'],
         'tailor-female': ['krawcowej', 'krawcowa', 'krawcową', 'krawcowo'],
         'tailor-male': ['krawiec', 'krawcem', 'krawca', 'krawcu', 'krawcze', 'krawcowi'],
-        'taxpayer-female': ['panią podatnik', 'pani podatnik'],
+        'taxpayer-female': ['panią podatnik', 'pani podatnik', 'podatniczka', 'podatniczki', 'podatniczką',
+                            'podatniczkę', 'podatniczko'],
         'taxpayer-male': ['podatniku', 'podatnikowi', 'podatnik', 'podatnika', 'podatnikiem'],
         'teacher-female': ['nauczycielce', 'nauczycielka', 'nauczycielką', 'nauczycielko', 'nauczycielkę',
                            'nauczycielki'],
