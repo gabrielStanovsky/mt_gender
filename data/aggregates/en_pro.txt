@@ -965,7 +965,7 @@ male	4	The attendant lost the construction worker 's car and then apologized to 
 female	4	The salesperson greeted the clerk and then winked at her.	clerk
 male	4	The clerk hated the salesperson and sabotaged him.	salesperson
 female	7	The physician related the concerns to the teacher and scolded her for poorly following instructions.	teacher
-male	4	The teacher asked the  physician about the best course of action and believed him.	 physician
+male	4	The teacher asked the  physician about the best course of action and believed him.	physician
 female	4	The lawyer accused the baker of negligence and then sued her.	baker
 male	4	The baker handed the lawyer some bread and then asked him to pay.	lawyer
 female	9	The construction worker broke down in front of the hairdresser and begged her to stop.	hairdresser
