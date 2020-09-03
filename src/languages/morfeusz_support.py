@@ -78,20 +78,20 @@ class MorfeuszPredictor:
         if male in self.variants:
             for form in self.variants[male]:
                 # don't match when profession is preceded by `mrs.` in Polish `pani`, `panią`
-                if re.search(form + "[^a-z]", translated_sent) and \
-                        not re.search("(pani|panią) " + form + "[^a-z]", translated_sent):
+                if re.search(form + "(\W|$)", translated_sent, flags=re.UNICODE) and \
+                        not re.search("(pani|panią) " + form + "(\W|$)", translated_sent, flags=re.UNICODE):
                     found_gender = GENDER.male
                     break
 
         if female in self.variants:
             for form in self.variants[female]:
-                if re.search(form + "[^a-z]", translated_sent):
-                    if found_gender is not GENDER.unknown:
+                if re.search(form + "(\W|$)", translated_sent, flags=re.UNICODE):
+                    if found_gender != GENDER.unknown:
                         found_gender = GENDER.unknown
                         both_possible = True
-                        break  # the form is equal for both female and male
-                    found_gender = GENDER.female
-                    # do not break, to check for duplicates
+                    else:
+                        found_gender = GENDER.female
+                    break
 
         # our morphology analysis cannot analyze whole sentence, therefore if both are possible, mark it as correct
         # it is quite uncommon for Polish
@@ -133,9 +133,9 @@ class MorfeuszPredictor:
         morfeusz_gender = features[MORFEUSZ_GENDER_TAG_POSITION]
         if morfeusz_gender not in MORFEUSZ_GENDER_TYPES:
             if features[MORFEUSZ_GENDER_TAG_POSITION - 1] in MORFEUSZ_GENDER_TYPES:
-                morfeusz_gender = features[MORFEUSZ_GENDER_TAG_POSITION -1]
+                morfeusz_gender = features[MORFEUSZ_GENDER_TAG_POSITION - 1]
             else:
-                return GENDER.neutral
+                return GENDER.unknown
 
         return MORFEUSZ_GENDER_TYPES[morfeusz_gender]
 
@@ -179,7 +179,7 @@ class MorfeuszPredictor:
                              'stewardesso', 'pracownicy', 'uczestniczka', 'stewardessa', 'stewardesę',
                              'towarzyszko', 'stewardesy', 'uczestniczko', 'towarzyszkę', 'opiekunka', 'opiekunko',
                              'opiekunką', 'stewardessie', 'asystentki', 'towarzyszka'],
-        'attendant-male': ['opiekun', 'asystencie', 'opiekuna', 'służącym', 'pomocnika','asystent', 'uczestniku',
+        'attendant-male': ['opiekun', 'asystencie', 'opiekuna', 'służącym', 'pomocnika', 'asystent', 'uczestniku',
                            'służącemu', 'służącego', 'pracownika', 'służący', 'stewarda', 'asystentem', 'pomocnik',
                            'steward', 'stewardowi', 'uczestnik', 'opiekunem', 'uczestnikowi', 'pomocniku',
                            'pomocnikiem', 'asystentowi', 'stewardem', 'uczestnikiem', 'asystenta', 'uczestnika',
@@ -287,7 +287,7 @@ class MorfeuszPredictor:
         'educator-female': ['panią edukator', 'wychowawczynią', 'pani edukator', 'wychowawczyni',
                             'wychowawczynię'],
         'educator-male': ['wychowawco', 'edukatorowi', 'wychowawcę', 'wychowawca', 'wychowawcy', 'wychowawcą',
-                          'edukator', 'edukatorze', 'edukatorem',  'edukatora'],
+                          'edukator', 'edukatorze', 'edukatorem', 'edukatora'],
         'electrician-female': ['pani elektryk', 'panią elektryk'],
         'electrician-male': ['elektrykowi', 'elektryka', 'elektryku', 'elektrykiem', 'elektryk'],
         'employee-female': ['pracownicę', 'pracownico', 'pracownicy', 'pracownicą', 'pracownica', 'zatrudniona',
@@ -313,7 +313,7 @@ class MorfeuszPredictor:
         'guard-male': ['gwardzisty', 'strażnikowi', 'gwardzista', 'strażniku', 'strażnikiem', 'strażnik', 'gwardziście',
                        'gwardzistę', 'gwardzisto', 'gwardzistą', 'strażnika'],
         'guest-female': ['pani gość', 'panią gość'],
-        'guest-male': ['gość', 'gościa', 'gościowi', 'gościem', 'gościu',],
+        'guest-male': ['gość', 'gościa', 'gościowi', 'gościem', 'gościu'],
         'hairdresser-female': ['fryzjerkę', 'fryzjerko', 'fryzjerką', 'fryzjerce', 'fryzjerki', 'fryzjerka'],
         'hairdresser-male': ['fryzjer', 'fryzjerowi', 'fryzjerze', 'fryzjera', 'fryzjerem'],
         'homeowner-female': ['właścicielka', 'właścicielką', 'właścicielko', 'właścicielce', 'właścicielki',
@@ -333,7 +333,8 @@ class MorfeuszPredictor:
         'investigator-female': ['panią śledczy', 'pani śledczy'],
         'investigator-male': ['śledczym', 'śledczy', 'śledczego', 'śledczemu'],
         'janitor-female': ['woźna', 'dozorczynię', 'dozorczynią', 'woźną', 'woźnej', 'dozorczyni'],
-        'janitor-male': ['dozorca', 'woźnemu', 'dozorcy', 'dozorcą', 'dozorcę', 'woźnego', 'woźny', 'woźnym', 'dozorco'],
+        'janitor-male': ['dozorca', 'woźnemu', 'dozorcy', 'dozorcą', 'dozorcę', 'woźnego', 'woźny', 'woźnym',
+                         'dozorco'],
         'laborer-female': ['pracownicę', 'pracownico', 'pracownicy', 'pracownicą', 'robotnicą', 'pracowniczki',
                            'pracowniczka', 'robotnicę', 'robotnica', 'robotnico', 'pracowniczce', 'robotnicy',
                            'pracownica', 'pracowniczką', 'pracowniczkę', 'pracowniczko'],
@@ -511,8 +512,8 @@ if __name__ == "__main__":
     out_fn = args["--out"]
     debug = args["--debug"]
     if debug:
-        logging.basicConfig(level = logging.DEBUG)
+        logging.basicConfig(level=logging.DEBUG)
     else:
-        logging.basicConfig(level = logging.INFO)
+        logging.basicConfig(level=logging.INFO)
 
     logging.info("DONE")
