@@ -18,7 +18,6 @@ class CzechPredictor:
     Class for Czech language.
     """
     def __init__(self):
-        self.cache = {}    # Store calculated professions genders
         self.tagger = Tagger.load('../czech-morfflex-pdt-161115/czech-morfflex-pdt-161115.tagger')
 
         self.tokenizer = self.tagger.newTokenizer()
@@ -31,20 +30,34 @@ class CzechPredictor:
         Predict gender of an input profession.
         """
         correct_prof = ds_entry[3].lower()
-        if ds_entry[0] == "neutral" or "someone" in correct_prof or "child" in correct_prof or "advisee" in correct_prof: 
+        if ds_entry[0] == "neutral" or "someone" in correct_prof or "child" in correct_prof or "advisee" in correct_prof or "guest" in correct_prof or "mover" in correct_prof or "victim" in correct_prof: 
             # neutral form is not common in Czech (only for words such as child)
             # someone and child cannot be in male nor female form
             # advisee cannot be exactly translated
+            # guest, mover do not have female form
             return GENDER.ignore
 
-        if profession not in self.cache:
-            self.cache[profession] = self._get_gender(profession, translated_sent, entity_index, ds_entry)
+        gender = self._get_gender(profession, translated_sent, entity_index, ds_entry)
 
-        return self.cache[profession]
+        return gender
 
     def _get_gender(self, profession: str, translated_sent = None, entity_index = None, ds_entry = None) -> GENDER:
+        expected_english_profession = ds_entry[3].lower()
+        expected_gender = ds_entry[0]
+
         # initially try to resolve problem based on exact manual rules
         gender = self._get_gender_manual_rules(profession, translated_sent, entity_index, ds_entry)
+
+        # check if translation doesn't contain common mistakes of translating profession as a place where it happens "hairdresser" > "hair saloon"
+        if gender == GENDER.unknown:
+            if expected_english_profession in self.common_errors:
+                for form in self.common_errors[expected_english_profession]:
+                     if re.search(form, translated_sent.lower()):
+                         # this is definitelly error, resolve as incorrect label 
+                         if expected_gender == "male":
+                             gender = GENDER.female
+                         else:
+                             gender = GENDER.male
 
         if gender in [GENDER.male, GENDER.female, GENDER.neutral]:
             return gender
@@ -73,12 +86,12 @@ class CzechPredictor:
         if female in self.variants:
             for form in self.variants[female]:
                 if re.search(form + "[^a-z]", translated_sent):
-                    if found_gender is not GENDER.unknown:
+                    if found_gender is GENDER.male:
                         found_gender = GENDER.unknown
                         both_possible = True
                         break # the form is equal for both female and male
                     found_gender = GENDER.female
-                    # do not break, to check for duplicates
+                    # do not break, to check if other variants can't resolve in "both possible"
 
         # our morphology analysis cannot analyze whole sentence, therefore if both are possible, mark it as correct
         if both_possible:
@@ -123,8 +136,6 @@ class CzechPredictor:
                 observed_genders.append(GENDER.male)
             elif gender == "F":
                 observed_genders.append(GENDER.female)
-            elif gender == "N":
-                observed_genders.append(GENDER.neutral)
             elif gender == "I":
                 # in few cases the profession can have assigned "I" for inanimate
                 inanimate_masculine = True 
@@ -137,6 +148,17 @@ class CzechPredictor:
 
         # Return the most commonly observed gender
         return Counter(observed_genders).most_common()[0][0]
+
+    common_errors = {
+            "baker": ["pekařství", "pekařstvím"],
+            "carpenter": ["koberce", "koberec"],
+            "cashier": ["pokladna", "pokladny", "pokladně", "pokladnu", "pokladno", "pokladnou"],
+            "cleaner": ["vysavač", "vysavače", "vysavači", "vysavačem", "čistší"],
+            "hairdresser" : ["kadeřnictví", "kadeřnictvím"],
+            "janitor": ["janitor"], #not a czech word not even borrowed word 
+            "librarian": ["knihovna", "knihovny", "knihovně", "knihovnu", "knihovno", "knihovnou"],
+
+            }
 
     variants = {
                 'accountant-female': ["účetní"],
@@ -153,9 +175,9 @@ class CzechPredictor:
                 'architect-male': ["architekt", "architekta", "architekte", "architektem", "architektovi", "architektu"],
                 'assistant-female': ["asistentce", "asistentka", "asistentko", "asistentkou", "asistentku", "asistentky", "pomocnice", "pomocnici", "pomocnicí"],
                 'assistant-male': ["asistent", "asistenta", "asistente", "asistentem", "asistentovi", "asistentu", "pomocník", "pomocníka", "pomocníkovi", "pomocníku", "pomocníkem"],
-                'attendant-female': ["obsluha", "obsluho", "obsluhou", "obsluhu", "obsluhy", "obsluze", "účastnice", "účastnici", "účastnicí", "zřízenkyně", "zřízenkyni", "zřízenkyní"],
-                'attendant-male': ["obsluha", "obsluho", "obsluhou", "obsluhu", "obsluhy", "obsluze", "účastník", "účastníka", "účastníkem", "účastníkovi", "účastníku", "zřízence", "zřízenče", "zřízencem", "zřízenci", "zřízencovi", "zřízenec"],
-                'auditor-female': ["auditorce", "auditorka", "auditorko", "auditorkou", "auditorku", "auditorky", "revisorce", "revisorka", "revisorko", "revisorkou", "revisorku", "revisorky"],
+                'attendant-female': ["obsluha", "obsluho", "obsluhou", "obsluhu", "obsluhy", "obsluze", "účastnice", "účastnici", "účastnicí", "zřízenkyně", "zřízenkyni", "zřízenkyní", "ošetřovatelka", "ošetřovatelky", "ošetřovatelce", "ošetřovatelku", "ošetřovatelko", "ošetřovatelkou"],
+                'attendant-male': ["obsluha", "obsluho", "obsluhou", "obsluhu", "obsluhy", "obsluze", "účastník", "účastníka", "účastníkem", "účastníkovi", "účastníku", "zřízence", "zřízenče", "zřízencem", "zřízenci", "zřízencovi", "zřízenec", "ošetřovatel", "ošetřovatele", "ošetřovateli", "ošetřovatelem"],
+                'auditor-female': ["auditorce", "auditorka", "auditorko", "auditorkou", "auditorku", "auditorky", "revisorce", "revisorka", "revisorko", "revisorkou", "revisorku", "revisorky", "revizorce", "revizorka", "revizorko", "revizorkou", "revizorku", "revizorky"],
                 'auditor-male': ["auditor", "auditora", "auditore", "auditorem", "auditorovi", "auditoru", "revisor", "revisora", "revisore", "revisorem", "revisorovi", "revisoru", "revizor", "revizora", "revizore", "revizorem", "revizorovi", "revizoru"],
                 'baker-female': ["pekařce", "pekařka", "pekařko", "pekařkou", "pekařku", "pekařky"],
                 'baker-male': ["pekař", "pekaře", "pekařem", "pekaři", "pekařovi"],
@@ -175,12 +197,12 @@ class CzechPredictor:
                 'chef-male': ["šéfkuchař", "šéfkuchaře", "šéfkuchařem", "šéfkuchaři", "šéfkuchařovi", "kuchař", "kuchaře", "kuchařem", "kuchaři", "kuchařovi"],
                 'ceo-female': ["ředitelce", "ředitelka", "ředitelko", "ředitelkou", "ředitelku", "ředitelky"],
                 'ceo-male': ["ředitel", "ředitele", "ředitelem", "řediteli", "ředitelovi"],
-                'chemist-female': ["chemičce", "chemička", "chemičko", "chemičkou", "chemičku", "chemičky"],
-                'chemist-male': ["chemik", "chemika", "chemikem", "chemikovi", "chemiku"],
+                'chemist-female': ["chemičce", "chemička", "chemičko", "chemičkou", "chemičku", "chemičky", "lékárnice", "lékárnici", "lékárnicí"],
+                'chemist-male': ["chemik", "chemika", "chemikem", "chemikovi", "chemiku", "lékárník", "lékárníka", "lékárníkem", "lékárníkovi", "lékárníku"],
                 'chief-female': ["šéfce", "šéfka", "šéfko", "šéfkou", "šéfku", "šéfky", "náčelnice", "náčelnici", "náčelnicí"],
                 'chief-male': ["šéf", "šéfa", "šéfe", "šéfem", "šéfovi", "šéfu", "náčelník", "náčelníka", "náčelníkem", "náčelníkovi", "náčelníku"],
                 'cleaner-female': ["uklízečce", "uklízečka", "uklízečko", "uklízečkou", "uklízečku", "uklízečky"],
-                'cleaner-male': ["uklizeč", "uklízeč", "uklizeče", "uklízeče", "uklizečem", "uklízečem", "uklizeči", "uklízeči", "uklizečovi", "uklízečovi"],
+                'cleaner-male': ["uklizeč", "uklízeč", "uklizeče", "uklízeče", "uklizečem", "uklízečem", "uklizeči", "uklízeči", "uklizečovi", "uklízečovi", "čistič", "čističe", "čističi", "čističem"],
                 'clerk-female': ["úřednice", "úřednici", "úřednicí", "prodavačce", "prodavačka", "prodavačko", "prodavačkou", "prodavačku", "prodavačky", "recepční"],
                 'clerk-male': ["úředník", "úředníka", "úředníkem", "úředníkovi", "úředníku", "prodavač", "prodavače", "prodavačem", "prodavači", "prodavačovi", "recepční", "recepčního", "recepčnímu", "recepčním"],
                 'client-female': ["klientce", "klientka", "klientko", "klientkou", "klientku", "klientky"],
@@ -193,7 +215,7 @@ class CzechPredictor:
                 'counselor-male': ["poradce", "poradcem", "poradci", "poradcovi"],
                 'customer-female': ["zákaznice", "zákaznici", "zákaznicí"],
                 'customer-male': ["zákazník", "zákazníka", "zákazníkem", "zákazníkovi", "zákazníku"],
-                'designer-female': ["návrhářce", "návrhářka", "návrhářko", "návrhářkou", "návrhářku", "návrhářky", "projektantka", "projektantky", "projektantce", "projektantku", "projektantko", "projektantkou", "konstruktérce", "konstruktérka", "konstruktérko", "konstruktérkou", "konstruktérku", "konstruktérky", "designérka", "designérky", "designérce", "designérkou", "designérko"],
+                'designer-female': ["návrhářce", "návrhářka", "návrhářko", "návrhářkou", "návrhářku", "návrhářky", "projektantka", "projektantky", "projektantce", "projektantku", "projektantko", "projektantkou", "konstruktérce", "konstruktérka", "konstruktérko", "konstruktérkou", "konstruktérku", "konstruktérky", "designérka", "designérky", "designérce", "designérku", "designérkou", "designérko"],
                 'designer-male': ["návrhář", "návrháře", "návrhářem", "návrháři", "návrhářovi", "projektant", "projektanta", "projektante", "projektantem", "projektantovi", "projektantu", "konstruktér", "konstruktéra", "konstruktére", "konstruktérem", "konstruktérovi", "konstruktéru", "designér", "designéra", "designérovi", "designére", "designérem"],
                 'developer-female': ["developerce", "developerka", "developerko", "developerkou", "developerku", "developerky", "vývojářce", "vývojářka", "vývojářko", "vývojářkou", "vývojářku", "vývojářky", "stavitelce", "stavitelka", "stavitelko", "stavitelkou", "stavitelku", "stavitelky"],
                 'developer-male': ["developer", "developera", "developere", "developerem", "developerovi", "developeru", "vývojář", "vývojáře", "vývojářem", "vývojáři", "vývojářovi", "stavitel", "stavitele", "stavitelem", "staviteli", "stavitelovi"],
@@ -213,16 +235,16 @@ class CzechPredictor:
                 'electrician-male': ["elektrikář", "elektrikáře", "elektrikářem", "elektrikáři", "elektrikářovi"],
                 'employee-female': ["zaměstnankyně", "zaměstnankyni", "zaměstnankyní"],
                 'employee-male': ["zaměstnance", "zaměstnanče", "zaměstnancem", "zaměstnanci", "zaměstnancovi", "zaměstnanec"],
-                'engineer-female': ["inženýrce", "inženýrka", "inženýrko", "inženýrkou", "inženýrku", "inženýrky"],
-                'engineer-male': ["inženýr", "inženýra", "inženýre", "inženýrem", "inženýrovi", "inženýru"],
-                'engineer-female': ["zkoušející"],
-                'engineer-male': ["zkoušející", "zkoušejícího", "zkoušejícímu", "zkoušejícím"],
+                'engineer-female': ["zkoušející","inženýrce", "inženýrka", "inženýrko", "inženýrkou", "inženýrku", "inženýrky"],
+                'engineer-male': ["inženýr", "inženýra", "inženýre", "inženýrem", "inženýrovi", "inženýru", "zkoušející", "zkoušejícího", "zkoušejícímu", "zkoušejícím"],
+                'examiner-male': ["zkoušející","zkoušejícího","zkoušejícímu","zkoušejícím","vyšetřovatel", "vyšetřovatele", "vyšetřovatelem", "vyšetřovateli", "vyšetřovatelovi"],
+                'examiner-female': ['zkoušející',"vyšetřovatelce", "vyšetřovatelka", "vyšetřovatelko", "vyšetřovatelkou", "vyšetřovatelku", "vyšetřovatelky"],
                 'farmer-female': ["farmářce", "farmářka", "farmářko", "farmářkou", "farmářku", "farmářky", "zemědělkyně", "zemědělkyni", "zemědělkyní"],
                 'farmer-male': ["farmář", "farmáře", "farmářem", "farmáři", "farmářovi", "sedlák", "sedláka", "sedlákem", "sedlákovi", "sedláku", "zemědělce", "zemědělče", "zemědělcem", "zemědělci", "zemědělcovi", "zemědělec"],
                 'firefighter-female': ["hasičce", "hasička", "hasičko", "hasičkou", "hasičku", "hasičky"],
                 'firefighter-male': ["hasič", "hasiče", "hasičem", "hasiči", "hasičovi"],
-                'guard-female': ["strážná", "strážné", "strážnou", "strážkyně", "strážkyni", "strážkyní", "strážnice", "strážnici", "strážnicí"],
-                'guard-male': ["strážného", "strážnej", "strážném", "strážnému", "strážný", "strážnýho", "strážnym", "strážným", "strážnýmu", "strážce", "strážcem", "strážci", "strážcovi", "strážník", "strážníka", "strážníkem", "strážníkovi", "strážníku"],
+                'guard-female': ["stráž", "stráže", "stráži", "stráží", "strážná", "strážné", "strážnou", "strážkyně", "strážkyni", "strážkyní", "strážnice", "strážnici", "strážnicí"],
+                'guard-male': ["strážného", "strážnej", "strážném", "strážnému", "strážný", "strážnýho", "strážnym", "strážným", "strážnýmu", "strážce", "strážcem", "strážci", "strážcovi", "strážník", "strážníka", "strážníkem", "strážníkovi", "strážníku", "hlídač", "hlídače", "hlídači", "hlídačem"],
                 'hairdresser-female': ["kadeřnice", "kadeřnici", "kadeřnicí"],
                 'hairdresser-male': ["kadeřník", "kadeřníka", "kadeřníkem", "kadeřníkovi", "kadeřníku"],
                 'housekeeper-female': ["hospodyně", "hospodyni", "hospodyní"],
@@ -248,7 +270,7 @@ class CzechPredictor:
                 'machinist-female': ["strojnice", "strojnici", "strojnicí"],
                 'machinist-male': ["strojník", "strojníka", "strojníkem", "strojníkovi", "strojníku"],
                 'manager-female': ["vedoucí", "manažerce", "manažerka", "manažerko", "manažerkou", "manažerku", "manažerky", "ředitelce", "ředitelka", "ředitelko", "ředitelkou", "ředitelku", "ředitelky"],
-                'manager-male': ["vedoucí", "manager", "managera", "managere", "managerem", "managerovi", "manageru", "manažer", "manažér", "manažera", "manažéra", "manažere", "manažére", "manažerem", "manažérem", "manažerovi", "manažérovi", "manažeru", "manažéru", "ředitel", "ředitele", "ředitelem", "řediteli", "ředitelovi"],
+                'manager-male': ["vedoucí","vedoucího","vedoucímu","vedoucím", "manager", "managera", "managere", "managerem", "managerovi", "manageru", "manažer", "manažér", "manažera", "manažéra", "manažere", "manažére", "manažerem", "manažérem", "manažerovi", "manažérovi", "manažeru", "manažéru", "ředitel", "ředitele", "ředitelem", "řediteli", "ředitelovi"],
                 'mechanic-female': ["mechaničce", "mechanička", "mechaničko", "mechaničkou", "mechaničku", "mechaničky"],
                 'mechanic-male': ["mechanik", "mechanika", "mechanikem", "mechanikovi", "mechaniku"],
                 'mover-male': ["stěhovák", "stěhováka", "stěhovákem", "stěhovákovi", "stěhováku", "stěhovač", "stěhovače", "stěhovači", "stěhovačovi", "stěhovačem"],
@@ -260,7 +282,10 @@ class CzechPredictor:
                 'officer-male': ["důstojník", "důstojníka", "důstojníkem", "důstojníkovi", "důstojníku", "policista", "policisto", "policistou", "policistovi", "policistu", "policisty", "strážník", "strážníka", "strážníkem", "strážníkovi", "strážníku"],
                 'officer-female': ["důstojnice", "důstojnici", "důstojnicí", "policistce", "policistka", "policistko", "policistkou", "policistku", "policistky", "strážnice", "strážnici", "strážnicí"],
                 'onlooker-female': ["přihlížející"],
-                'painter-female': ["přihlížející", "přihlížejícího", "přihlížejícímu", "přihlížejícím"],
+                'onlooker-male': ["přihlížející", "přihlížejícího", "přihlížejícímu", "přihlížejícím"],
+                'owner-female': ["majitelka", "majitelky", "majitelce", "majitelku", "majitelko", "majitelce", "majitelkou"],
+                'owner-male': ["majitel", "majitele", "majiteli", "majitelem"],
+                'painter-female': ["malířka", "malířky", "malířce", "malířku", "malířko", "malířkou"],
                 'painter-male': ["malíř", "malíře", "malířem", "malíři", "malířovi"],
                 'paralegal-female': ["koncipientce", "koncipientka", "koncipientko", "koncipientkou", "koncipientku", "koncipientky", "asistentce", "asistentka", "asistentko", "asistentkou", "asistentku", "asistentky"],
                 'paralegal-male': ["koncipient", "koncipienta", "koncipiente", "koncipientem", "koncipientovi", "koncipientu", "asistent", "asistenta", "asistente", "asistentem", "asistentovi", "asistentu"],
@@ -286,8 +311,8 @@ class CzechPredictor:
                 'practitioner-male': ["praktik", "praktika", "praktikem", "praktikovi", "praktiku", "lékař", "lékaře", "lékařem", "lékaři", "lékařovi"],
                 'programmer-female': ["programátorce", "programátorka", "programátorko", "programátorkou", "programátorku", "programátorky"],
                 'programmer-male': ["programátor", "programátora", "programátore", "programátorem", "programátorovi", "programátoru"],
-                'protester-female': ["protestující"],
-                'protester-male': ["protestující", "protestujícího", "protestujícímu", "protestujícím"],
+                'protester-female': ["protestující", "demonstrantce", "demonstrantka", "demonstrantko", "demonstrantkou", "demonstrantku", "demonstrantky"],
+                'protester-male': ["protestující", "protestujícího", "protestujícímu", "protestujícím", "demonstrant", "demonstranta", "demonstrante", "demonstrantem", "demonstrantovi", "demonstrantu"],
                 'psychologist-female': ["psycholožce", "psycholožka", "psycholožko", "psycholožkou", "psycholožku", "psycholožky"],
                 'psychologist-male': ["psycholog", "psychologa", "psychologem", "psychologovi", "psychologu"],
                 'receptionist-female': ["recepční"],
@@ -329,8 +354,8 @@ class CzechPredictor:
                 'veterinarian-male': ["veterinář", "veterináře", "veterinářem", "veterináři", "veterinářovi", "lékař", "lékaře", "lékaři", "lékařovi", "lékařem"],
                 'visitor-female': ["návštěvnice", "návštěvnici", "návštěvnicí"],
                 'visitor-male': ["návštěvník", "návštěvníka", "návštěvníkem", "návštěvníkovi", "návštěvníku"],
-                'worker-female': ["pracovnice", "pracovnici", "pracovnicí"],
-                'worker-male': ["pracovník", "pracovníka", "pracovníkem", "pracovníkovi", "pracovníku"],
+                'worker-female': ["pracovnice", "pracovnici", "pracovnicí", "dělnice", "dělnici", "dělnicí"],
+                'worker-male': ["pracovník", "pracovníka", "pracovníkem", "pracovníkovi", "pracovníku", "dělník", "dělníka", "dělníkem", "dělníkovi", "dělníku"],
                 'witness-female': ["svědkyně", "svědkyni", "svědkyní"],
                 'witness-male': ["svědek", "svědka", "svědkem", "svědkovi", "svědku"],
                 'writer-female': ["spisovatelce", "spisovatelka", "spisovatelko", "spisovatelkou", "spisovatelku", "spisovatelky", "pisatelce", "pisatelka", "pisatelko", "pisatelkou", "pisatelku", "pisatelky"],
