@@ -91,8 +91,8 @@ class GermanPredictor:
                             if gender is not None]
 
         if not observed_genders:
-            # No observed gendered words - return neutral
-            return GENDER.neutral
+            # No observed gendered words - return unknown
+            return GENDER.unknown
 
         # Return the most commonly observed gender
         return Counter(observed_genders).most_common()[0][0]
