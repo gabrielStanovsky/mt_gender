@@ -4,6 +4,7 @@
 # External imports
 import logging
 import pdb
+import json
 from pprint import pprint
 from pprint import pformat
 from docopt import docopt
@@ -73,10 +74,13 @@ def evaluate_bias(ds: List[str], predicted: List[GENDER]) -> Dict:
     prec_female = round((correct_cnt[GENDER.female] / pred_cnt[GENDER.female]) * 100, 1)
     f1_female = round(calc_f1(prec_female, recall_female), 1)
 
-    print(f"{acc},{f1_male},{f1_female}")
-    print("Unknown male: {}".format(count_unknowns[GENDER.male]))
-    print("Unknown female: {}".format(count_unknowns[GENDER.female]))
-    print("Unknown neutral: {}".format(count_unknowns[GENDER.neutral]))
+    output_dict = {"acc": acc,
+                   "f1_male": f1_male,
+                   "f1_female": f1_female,
+                   "unk_male": count_unknowns[GENDER.male],
+                   "unk_female": count_unknowns[GENDER.female],
+                   "unk_neutral": count_unknowns[GENDER.neutral]}
+    print(json.dumps(output_dict))
 
     male_prof = [prof for prof, vals in prof_dict.items()
                  if all(pred_gender == GENDER.male

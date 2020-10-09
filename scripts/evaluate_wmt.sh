@@ -23,10 +23,13 @@ do
     echo "analyzing $system"
     trans=$wmtbase/$system/$lang
     if [ -f $trans ]; then
-        echo $system >> $outfn
+        printf "$system\n" >> $outfn
         python split_translations.py --pro=$progold --ant=$antgold --trans=$trans
+        printf "all;;;" >> $outfn
         ../scripts/evaluate_single_file.sh $allgold $trans $targetlang $outfn
+        printf "pro-stereotypical;;;" >> $outfn
         ../scripts/evaluate_single_file.sh $progold ${trans}.pro $targetlang $outfn
+        printf "anti-stereotypical;;;" >> $outfn
         ../scripts/evaluate_single_file.sh $antgold ${trans}.ant $targetlang $outfn
     fi
 done
