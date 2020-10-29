@@ -1,6 +1,6 @@
 docopt
 tqdm
-spacy
+spacy==2.2.3
 mosestokenizer
 
 # Russian & Ukranian morphology
