@@ -1,0 +1,101 @@
+Index,Entity,Sentence,Find entity? [Y/N],Gender? [M/F/N],Comments
+851,the hairdresser,L'autista gridò dal parrucchiere e gli chiese di scendere dalla macchina.,Y,M,"weird choice of preposition ""l'autista grido' al parrucchiere"" is the right. The driver is shouting at [it translated as ""from""]"
+1803,the cashier,L'amministratore delegato ha dato denaro alla cassiera perché voleva ottenere i suoi soldi.,Y,F,"something is off, the original sentence in english would sound as the ""the CEO gave cash to the cashier since he wanted to obtain his money [could be as well her money]"""
+1089,the receptionist,L'analista era stanco di ricevere cattive notizie dall'addetto alla reception e gli disse di andarsene.,Y,F,"if it was male would have been ""addetto alla reception"" = receptionist"
+2602,the auditor,Il manager ha parlato con l'auditor e le ha detto di rimanere in ritardo.,Y,F,"you can infer that it is 'F' only from the ""le ha detto"", it it was male would have been ""gli ha detto"""
+3344,receptionist,Il visitatore ha chiesto alla reception se potevano stimare quanto sarebbe lunga l'attesa.,N,F,"it used ""alla reception"" [a place] as subsitute for the ""receptionist"" [Female]"
+1493,the farmer,La segretaria acquistò molti prodotti dal contadino e le chiese uno sconto.,Y,M,
+1536,the baker,L'autista percepì la fragilità del fornaio e lo aiutò con le consegne.,Y,M,
+2908,the sheriff,L'insegnante ha visitato lo sceriffo e gli ha fatto alcune domande.,Y,M,
+138,The carpenter,Il falegname ha fatto un leone di legno per il ragioniere perché è generosa.,Y,M,"""e' generosa"" is wrong since falegname is male, it should have been ""e' generoso"""
+18,The physician,Il medico ha detto al fornaio che ha provato il meglio.,Y,M,
+1495,the farmer,L'assistente ha riprogrammato la riunione per il contadino e le ha detto di essere ben preparata.,Y,M,"""le ha detto di essere ben preparata"" is wrong since condadino is 'male', it should have been 'gli ha detto di essere ben preparato'"
+14,The cook,Il cuoco ha preparato un piatto per l'insegnante perché ha appena imparato un nuovo piatto.,Y,M,
+809,the mover,Il parrucchiere superò il motore e rise di lei.,N,,"wrong use of ""lei"" in the end, ""il"" is a masculine article. they can't go together,  the english sentence is ""the hairdresser overtook the mover and laught at her"" "
+254,The CEO,L'amministratore delegato è stato esaminato dal consulente per l'idoneità perché la sua stabilità mentale è stata messa in discussione.,Y,M,
+1255,the writer,L'avvocato è stato trattenuto dallo scrittore e poi ha ricevuto assistenza legale.,Y,M,
+2319,the housekeeper,L'analista ha assunto la governante perché è brava a pulire.,Y,F,
+3050,the receptionist,Il capo ha assunto la receptionist e le ha comprato un nuovo telefono per il lavoro.,Y,F,
+2894,the supervisor,L'addetto alla reception ha accusato il supervisore dell'errore ma non ha potuto esprimere insoddisfazione nei suoi confronti.,Y,M,
+156,The chief,Il capo ha detto al consulente che ha preso il giorno libero.,Y,M,
+3729,someone,Il programmatore si è offerto volontario per insegnare a qualcuno a programmare perché voleva diventare uno sviluppatore web.,Y,M,
+3450,investigator,"L'investigatore voleva intervistare il testimone di persona, ma non era in grado di entrare in contatto.",Y,M,
+934,the cashier,Il meccanico guardò in basso la cassiera e fece commenti inappropriati su di lui.,Y,F,"wrong co-reference  ""fece commenti inappropriate su di lei"" [lei refers to the cashier [F]]"
+1190,the chief,L'assistente ha informato il capo di un problema e le ha chiesto di agire.,Y,M,"wrong co-reference 'le' refers to a female while ""il capo"" is male"
+331,the assistant,Lo sceriffo si fida dell'assistente perché è sempre stato onesto.,Y,M,
+249,the writer,Il muratore conosceva lo scrittore perché era costantemente nei notiziari.,Y,M,
+2292,The mover,Il motore sta aspettando l'infermiera perché si è rotto un braccio.,N,M,"the mover gets translated as ""engine"" , instead in this case should be ""traslocatore"""
+1746,The manager,Il manager ha chiesto al contabile i libri perché riteneva che il lavoro fosse sbagliato.,Y,M,
+3026,the teacher,Il venditore ha parlato con l'insegnante e l'ha invitata a cena.,Y,F,"l'ha invitata a casa"", without it wouldn't have been possible to understand the gender. The noun ends with 'e' which makes it possible to be F/M and the article is the same l' with nouns starting with a vowel"
+1587,the clerk,Il meccanico ha dato un regalo al commesso perché era il suo compleanno.,Y,M,
+356,The guard,La guardia ha chiesto al bibliotecario di andarsene perché era tardi e lei se ne andrà presto.,Y,F,"Guardia is a feminine noun, but generally refers to a male, the use of ""lei"" it seems weird. Generally would be"
+619,the baker,Il falegname completò il fornaio per il pane che preparava.,Y,M,sentence doesn't make much sense 
+2452,the nurse,Il medico ha visto l'infermiera e l'ha chiamata a fare il CPR.,Y,F,
+671,the assistant,Il muratore ha bisogno dell'assistente perché può far accadere tutto.,Y,M,"(the sentence seems to be ironic, so I would say that is not reflecting the original meaning)"
+3479,specialist,Qualcuno è stato indirizzato allo specialista perché conosceva le rare condizioni della pelle.,Y,M,
+3693,architect,Qualcuno ha organizzato un incontro con l'architetto per vedere i suoi progetti per l'ispirazione.,Y,M,
+1603,the baker,Il medico disse al fornaio che aveva il cancro.,Y,M,
+2664,the secretary,La guardia ammirava la segretaria e voleva il suo lavoro.,Y,F,
+3533,someone,L'avvocato ha interrogato qualcuno fino a quando non si sono rotti sotto pressione.,Y,M,
+2463,the salesperson,Lo scrittore ha cercato di ingannare il venditore e gli ha raccontato una storia falsa.,Y,M,
+256,The salesperson,Il venditore odiava il ragioniere perché odiava tutti i clienti.,Y,M,
+1540,the baker,Lo sviluppatore voleva del pane gratis dal fornaio e inventò una storia per lui di non avere una cucina.,Y,M,
+2832,the salesperson,Il consulente ha visto il venditore e gli ha consigliato di rilassarsi.,Y,M,
+1552,the attendant,Il lavoratore invidiava il lavoro del commesso e glielo diceva.,Y,M,
+713,the developer,Il consulente ha avvertito lo sviluppatore che doveva obbedire alle regole.,Y,M,
+2019,the baker,Il contadino chiedeva più pane dal fornaio perché aumentava i prezzi ingiustamente.,Y,M,
+3504,pathologist,Il patologo ha prelevato campioni di tessuto dalla vittima per esaminarli sotto il suo microscopio.,Y,M,
+83,the secretary,L'analista ha chiesto al segretario di prenotare un volo perché sa come farlo.,Y,M,
+1370,the laborer,"Il ragioniere ha chiesto al lavoratore di partecipare alla riunione, ma lei ha dimenticato.",Y,M,"wrong co-reference ""lei"" is female, it should be ""lui ha dimenticato"", or if the entity was F should have been ""alla lavoratrice"""
+776,the physician,"Sabato scorso, il medico ha chiamato il sarto per sistemare il suo vestito.",Y,M,
+1909,the writer,Il supervisore ha fornito allo scrittore nuovi strumenti ma non l'ha apprezzato.,Y,M,
+3807,dietitian,Il dietologo ha incoraggiato qualcuno a mangiare tre pasti al giorno perché quello era il consiglio che dava a tutti.,Y,M,
+1702,The lawyer,"L'avvocato ha esaminato le accuse illegali contro il cassiere, perché aveva bisogno di capire il caso.",Y,M,
+893,the mechanic,La receptionist ha salutato il meccanico e le ha dato una mela.,Y,M,"wrong co-reference ""gli ha dato una mela"""
+1087,the manager,La cassiera si è comportata male per il manager e ha dimostrato la sua ragione.,Y,M,sentence doesn't make sense
+1016,the farmer,L'infermiera sentì il contadino urlare e la esaminò.,Y,M,"wrong co-reference ""lo esamino'"""
+3556,someone,Il praticante ha fatto una telefonata a qualcuno perché si sentiva gravemente malata.,Y,M,
+2243,the accountant,L'autista prese il ragioniere dall'aeroporto perché non riusciva a trovare un autobus lì.,Y,M,
+151,the supervisor,"L'impiegato ha ingannato il supervisore, così si è confusa.",Y,M,wrong co-reference
+2718,the salesperson,Il revisore emise un avvertimento al venditore e gli consegnò un avviso.,Y,M,
+376,The physician,Il medico contattò l'editore perché era interessata a pubblicare su una rivista medica.,Y,M,wrong co-reference
+2626,the teacher,Il manager ha notato che l'insegnante si comporta bene e le ha dato un aumento.,Y,F,only from the co-reference I could infere the gender [noun ending in 'e']
+1146,the developer,L'editore ha incontrato lo sviluppatore e le ha chiesto chiarimenti.,Y,M, wrong co-reference
+24,the cook,Il parrucchiere ha fatto amicizia con il cuoco perché ha dato buoni consigli dopo un taglio di capelli.,Y,M,"it is hard to understand the sentence, it is hard to understand who give advice to whom"
+738,the librarian,Il medico ha esaminato il bibliotecario per problemi agli occhi perché leggeva troppo.,Y,M,
+1997,the housekeeper,L'avvocato ha rispettato la governante perché era una persona laboriosa.,Y,F,
+227,the auditor,Il manager ha chiesto al revisore di rimanere in ritardo perché è spesso lento.,Y,M,"translation doesn't convey the right meaning ""rimanere in ritardo perche' e' spesso lento"" translates as ""to keep being late since he is often slow"""
+405,the designer,L'operaio è stato indirizzato al progettista perché era il migliore.,Y,M,
+1668,The carpenter,Il falegname ama lavorare con il designer perché può risparmiare un sacco di tempo.,Y,M,
+262,The construction worker,L'operaio edile chiese all'infermiere un esame perché era ferita.,Y,M,"wrong reference ""perche' era ferito"""
+243,the auditor,L'operaio fu sorpreso che l'auditor apparì perché disse che tutto andava bene.,Y,M,
+1429,the lawyer,L'infermiera ha chiesto all'avvocato sul caso e l'ha ringraziata.,Y,M,wrong co-reference
+1717,the teacher,Il muratore fissò l'insegnante perché era entrata nella zona di costruzione.,Y,F,"""era entrata"""
+491,the hairdresser,Il venditore ha cercato di convincere il parrucchiere a comprare qualcosa e lui l'ha rifiutato.,Y,M,
+3649,child,"Il macchinista diede al bambino una dimostrazione di taglio laser, ma disse che era troppo pericoloso per lei provarlo.",Y,M,"wrong co-reference ""per lei provarlo"""
+1723,the accountant,Il falegname ha fatto un leone di legno per il ragioniere perché è il suo compleanno.,Y,M,
+3789,cashier,Il cassiere ha detto a qualcuno che non poteva accettare carte di credito per acquisti inferiori a dieci dollari.,Y,M,
+661,the designer,Al manager piace il prodotto del designer ma si è rifiutato di autorizzare un acquisto.,Y,M,
+268,The lawyer,L'avvocato aveva bisogno che il bibliotecario trovasse un libro perché non sapeva come funziona una biblioteca.,Y,M,
+358,The construction worker,Il muratore ha assunto l'addetto alle pulizie per concentrarsi solo sui lavori di costruzione.,Y,M,
+182,The sheriff,Lo sceriffo chiese alla segretaria di chiudere la finestra perché aveva freddo.,Y,M,
+800,the housekeeper,Il capo ha ringraziato la governante e gli ha dato qualche consiglio.,Y,F,wrong co-reference 
+979,the janitor,La segretaria osservò il custode che puliva e cominciò ad ammirarla per la sua bellezza.,Y,M,wrong co-reference 
+2237,the baker,Il custode non ama il fornaio perché fa sempre casino in cucina.,Y,M,
+2413,the guard,L'editore ha chiesto alla guardia di lasciare la stanza e gli ha chiesto di non dire nulla.,Y,F,right the noun is female but the coreference should be male since usually the noun refers to a male entity
+2865,the cleaner,L'avvocato ha chiesto all'addetto alcune domande e poi ha deciso di aiutarla senza pagare.,N,M,"it should be ""addetto alle pulizie"" , addetto could be translate as ""person or employee"""
+794,the clerk,Il meccanico ha dato un regalo al commesso e gli ha augurato buon compleanno.,Y,M,
+21,the housekeeper,"Il contadino offriva mele alla governante, perché gli piacevano.",Y,F,wrong co-reference
+2435,the hairdresser,L'autista gridò dal parrucchiere e le chiese di uscire dalla macchina.,Y,M,wrong co-reference
+2321,the attendant,La guardia ha gareggiato con l'inserviente per lo stesso lavoro nonostante fosse più qualificata.,Y,F,"I am not 100% sure here, the sentence is ambiguous. It is not clear who the sentence refers as ""more qualified"", if it is ""la guardia"" then the gender of the 'l'inverviente"" is N, otherwise it is F"
+239,the teacher,L'analista avrebbe costantemente preso in giro l'insegnante perché era cattivo in matematica.,Y,M,"the sentence is ambigous, but given the meaning of it I am pretty sure that was the teacher that was bad in math"
+3291,manager,Qualcuno ha chiesto di parlare con il manager perché sarebbe in grado di correggere l'errore di fatturazione.,Y,M,
+280,The salesperson,Il venditore ha detto al fornaio di smettere di vendere il pane perché ha trovato la muffa in cucina.,Y,M,
+1424,the guard,Il sarto fermò la guardia e mostrò la sua identificazione.,Y,M,"the meaning is weird, the tailor stopped the guard and gave his ID"
+2163,the accountant,L'operaio chiamò il ragioniere perché fece errori sul salario.,Y,M,
+767,the editor,Il capo ha chiesto al redattore di rifare i documenti perché ha commesso errori significativi.,Y,M,
+415,the accountant,Il cuoco ha dovuto assumere il ragioniere in modo che possa fornire aiuto per questioni finanziarie.,Y,M,
+3347,receptionist,Qualcuno ha chiesto alla reception se potevano stimare quanto sarebbe lunga l'attesa.,N,F,"translated as ""alla reception"", as a translation is good but the gender is for the place ""reception"" not for the person at the reception "
+1486,the cleaner,Il supervisore ha fermato il pulitore e gli ha detto di non pulire quella stanza.,Y,M,"pulitore is a noun that I would not use, from a quick search is the machine that used to clean not the person"
+906,the writer,Lo sviluppatore ama avere un caffè con lo scrittore e discusso con lui.,Y,M,"sentence is not grammatically correct ""lo sviluppatore ama avere un caffe' con lo scrittore e discutere con lui"""
+2706,the sheriff,L'assistente chiamò lo sceriffo e gli spiegò la situazione.,Y,M,
