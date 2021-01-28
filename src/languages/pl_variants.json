@@ -797,7 +797,10 @@
   "pani kierowca",
   "panią kierowcę",
   "panią kierowcą",
-  "pani kierowcy"
+  "pani kierowcy",
+  "kierowczyni",
+  "kierowczynię",
+  "kierowczynią"
  ],
  "driver-male": [
   "kierowco",
@@ -859,7 +862,12 @@
  ],
  "electrician-female": [
   "pani elektryk",
-  "panią elektryk"
+  "panią elektryk",
+  "elektryczka",
+  "elektryczki",
+  "elektryczce",
+  "elektryczkę",
+  "elektryczko"
  ],
  "electrician-male": [
   "elektrykowi",
@@ -891,7 +899,13 @@
  ],
  "engineer-female": [
   "pani inżynier",
-  "panią inżynier"
+  "panią inżynier",
+  "inżynierka",
+  "inżynierki",
+  "inżynierce",
+  "inżynierkę",
+  "inżynierką",
+  "inżynierko"
  ],
  "engineer-male": [
   "inżynier",
@@ -956,7 +970,13 @@
  ],
  "firefighter-female": [
   "panią strażak",
-  "pani strażak"
+  "pani strażak",
+  "strażaczka",
+  "strażaczki",
+  "strażaczce",
+  "strażaczkę",
+  "strażaczką",
+  "strażaczko"
  ],
  "firefighter-male": [
   "strażaku",
@@ -996,7 +1016,9 @@
  ],
  "guest-female": [
   "pani gość",
-  "panią gość"
+  "panią gość",
+  "gościni",
+  "gościnią"
  ],
  "guest-male": [
   "gość",
@@ -1104,7 +1126,10 @@
  ],
  "investigator-female": [
   "panią śledczy",
-  "pani śledczy"
+  "pani śledczy",
+  "śledcza",
+  "śledczej",
+  "śledczą"
  ],
  "investigator-male": [
   "śledczym",
@@ -1278,7 +1303,13 @@
  ],
  "mechanic-female": [
   "panią mechanik",
-  "pani mechanik"
+  "pani mechanik",
+  "mechaniczka",
+  "mechaniczki",
+  "mechaniczce",
+  "mechaniczkę",
+  "mechaniczką",
+  "mechaniczko"
  ],
  "mechanic-male": [
   "mechanikiem",
@@ -1466,7 +1497,13 @@
  ],
  "pathologist-female": [
   "panią patolog",
-  "pani patolog"
+  "pani patolog",
+  "patolożka",
+  "patolożki",
+  "patolożce",
+  "patolożkę",
+  "patolożką",
+  "patolożko"
  ],
  "pathologist-male": [
   "patologowi",
@@ -1567,7 +1604,13 @@
  ],
  "plumber-female": [
   "pani hydraulik",
-  "panią hydraulik"
+  "panią hydraulik",
+  "hydrauliczka",
+  "hydrauliczki",
+  "hydrauliczce",
+  "hydrauliczkę",
+  "hydrauliczką",
+  "hydrauliczko"
  ],
  "plumber-male": [
   "hydrauliku",
@@ -1715,7 +1758,9 @@
  ],
  "scientist-female": [
   "pani naukowiec",
-  "panią naukowiec"
+  "panią naukowiec",
+  "naukowczyni",
+  "naukowczynią"
  ],
  "scientist-male": [
   "naukowcze",
@@ -1744,7 +1789,13 @@
  ],
  "sheriff-female": [
   "pani szeryf",
-  "panią szeryf"
+  "panią szeryf",
+  "szeryfka",
+  "szeryfki",
+  "szeryfce",
+  "szeryfką",
+  "szeryfkę",
+  "szeryfko"
  ],
  "sheriff-male": [
   "szeryfem",
@@ -1829,7 +1880,13 @@
  ],
  "surgeon-female": [
   "pani chirurg",
-  "panią chirurg"
+  "panią chirurg",
+  "chirurżka",
+  "chirurżki",
+  "chirurżce",
+  "chirurżkę",
+  "chirurżką",
+  "chirurżko"
  ],
  "surgeon-male": [
   "chirurgiem",
@@ -1989,7 +2046,13 @@
  ],
  "veterinarian-female": [
   "pani weterynarz",
-  "panią weterynarz"
+  "panią weterynarz",
+  "weterynarka",
+  "weterynarki",
+  "weterynarce",
+  "weterynarkę",
+  "weterynarką",
+  "weterynarko"
  ],
  "veterinarian-male": [
   "weterynarza",
@@ -2033,7 +2096,11 @@
  ],
  "witness-female": [
   "pani świadek",
-  "panią świadek"
+  "panią świadek",
+  "świadkowa",
+  "świadkowej",
+  "świadkową",
+  "świadkowo"
  ],
  "witness-male": [
   "świadek",
