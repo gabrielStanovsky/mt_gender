@@ -1,0 +1,6 @@
+m2m_100_418M
+all;;;{"acc": 62.6, "f1_male": 77.1, "f1_female": 12.0, "unk_male": 614, "unk_female": 368, "unk_neutral": 0}
+pro-stereotypical;;;{"acc": 65.9, "f1_male": 76.9, "f1_female": 52.4, "unk_male": 489, "unk_female": 49, "unk_neutral": 0}
+anti-stereotypical;;;{"acc": 65.6, "f1_male": 82.5, "f1_female": 6.0, "unk_male": 114, "unk_female": 228, "unk_neutral": 0}
+mbart50_m2m
+all;;;

@@ -1,0 +1,4 @@
+Translation System,acc,delta-G,delta-S
+m2m_100_418M,61.1,66.6,-5.3
+mbart50_m2m,77.6,15.9,-3.8
+opus-mt,65.7,36.6,-1.8
