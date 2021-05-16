@@ -64,6 +64,7 @@ if __name__ == "__main__":
 
     # Start computation
     df = pd.read_csv(inp_fn)
+    pdb.set_trace()
     ste_df = df[df["stereotype"] == 1]
     ant_df = df[df["stereotype"] == -1]
     df_wino = convert_df_to_wino(df)
