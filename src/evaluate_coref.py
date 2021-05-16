@@ -19,12 +19,17 @@ from pathlib import Path
 from tqdm import tqdm
 import numpy as np
 import json
-
+from collections import defaultdict
+from math import floor
+import matplotlib.pyplot as plt
+from operator import itemgetter
 
 # Local imports
 
 
 #----
+
+BIN_SIZE = 5
 
 def find_cluster_ind(clusters, word_ind):
     """
@@ -65,6 +70,35 @@ def get_acc(vals):
     acc = (sum(vals) / len(vals)) * 100
     return acc
 
+def get_delta_s_by_dist(dist_metric):
+    """
+    Compute delta s by distance
+    """
+    dists = sorted(dist_metric.keys())
+    delta_s_by_dist = []
+    for dist in dists:
+        cur_metric = dist_metric[dist]
+        ste = cur_metric[1]
+        ant = cur_metric[-1]
+        delta_s_by_dist.append((dist,
+                                get_acc(ste) - get_acc(ant),
+                                len(ste) + len(ant)))
+
+    return delta_s_by_dist
+
+def average_buckets(b1, b2):
+    """
+    average two buckets
+    """
+    b1_ind, b1_val, b1_cnt = b1
+    b2_ind, b2_val, b2_cnt = b2
+
+    cnt = b1_cnt + b2_cnt
+    val = ((b1_val * b1_cnt) + (b2_val * b2_cnt)) / cnt
+
+    new_bucket = (b1_ind, val, cnt)
+    return new_bucket
+    
 if __name__ == "__main__":
 
     # Parse command line arguments
@@ -86,11 +120,12 @@ if __name__ == "__main__":
                "ste": [],
                "ant": [],
                "masc": [],
-               "femn": []}
+               "femn": [],
+               "num_of_pronouns": defaultdict(list),
+               "distance": defaultdict(lambda: defaultdict(list))}
 
-    lines = [json.loads(line.strip()) for line in open(inp_fn, encoding = "utf8")]
-
-    for line in tqdm(lines):
+    for line in tqdm(open(inp_fn, encoding = "utf8")):
+        line = json.loads(line.strip())
         is_correct = is_correct_pred(line)
         row = line["row"]
         metrics["acc"].append(is_correct)
@@ -106,13 +141,38 @@ if __name__ == "__main__":
             metrics["ste"].append(is_correct)
         elif stereotype == -1:
             metrics["ant"].append(is_correct)
+
+        num_of_prons = row["num_of_pronouns"]
+        dist = floor(row["distance"] / BIN_SIZE)
+        metrics["num_of_pronouns"][num_of_prons].append(is_correct)
+        metrics["distance"][dist][stereotype].append(is_correct)
             
         
     acc = get_acc(metrics["acc"])
     delta_g = get_acc(metrics["masc"]) - get_acc(metrics["femn"])
     delta_s = get_acc(metrics["ste"]) - get_acc(metrics["ant"])
+    delta_s_by_dist = get_delta_s_by_dist(metrics["distance"])
+
+    # average last bucket
+    delta_s_by_dist[-2] = average_buckets(delta_s_by_dist[-2], delta_s_by_dist[-1])
+    delta_s_by_dist = delta_s_by_dist[:-1]
 
     logging.info(f"acc = {acc:.1f}; delta_g = {delta_g:.1f}; delta_s = {delta_s:.1f}")
+    logging.info(f"dist = {delta_s_by_dist}")
+
+    # plot
+    plt.rcParams.update({'font.size': 15})
+    ranges = [f"{x*5}-{(x +1) * 5}" for x in  map(itemgetter(0), delta_s_by_dist)]
+    ranges[-1] = ranges[-1].split("-")[0] + ">"
+    values = list(map(itemgetter(1), delta_s_by_dist))
+    y_pos = np.arange(len(ranges))
+
+    plt.bar(y_pos, values, align = "center", alpha = 0.5)
+    plt.xticks(y_pos, ranges)
+    plt.ylabel("∆ s")
+    plt.xlabel("distance [words] between pronoun and antecedent")
+    plt.tight_layout()
+    plt.savefig(out_fn)
 
     
     # End
