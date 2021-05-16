@@ -1,0 +1,12 @@
+m2m_100_418M
+all;;;{"acc": 74.7, "f1_male": 85.4, "f1_female": 35.6, "unk_male": 2675, "unk_female": 1075, "unk_neutral": 0}
+pro-stereotypical;;;{"acc": 83.8, "f1_male": 91.2, "f1_female": 47.1, "unk_male": 1753, "unk_female": 227, "unk_neutral": 0}
+anti-stereotypical;;;{"acc": 70.0, "f1_male": 80.7, "f1_female": 49.1, "unk_male": 754, "unk_female": 351, "unk_neutral": 0}
+mbart50_m2m
+all;;;{"acc": 57.3, "f1_male": 66.6, "f1_female": 53.3, "unk_male": 227, "unk_female": 119, "unk_neutral": 0}
+pro-stereotypical;;;{"acc": 77.4, "f1_male": 87.1, "f1_female": 70.8, "unk_male": 107, "unk_female": 26, "unk_neutral": 0}
+anti-stereotypical;;;{"acc": 63.0, "f1_male": 78.7, "f1_female": 39.0, "unk_male": 55, "unk_female": 37, "unk_neutral": 0}
+opus-mt
+all;;;{"acc": 77.3, "f1_male": 86.6, "f1_female": 59.4, "unk_male": 3993, "unk_female": 1657, "unk_neutral": 0}
+pro-stereotypical;;;{"acc": 86.5, "f1_male": 92.7, "f1_female": 65.2, "unk_male": 2403, "unk_female": 240, "unk_neutral": 0}
+anti-stereotypical;;;{"acc": 68.1, "f1_male": 79.8, "f1_female": 48.0, "unk_male": 1063, "unk_female": 573, "unk_neutral": 0}
