@@ -32,22 +32,62 @@ HEADER = "#begin document ({doc_name}); part 000"
 FOOTER = "\n#end document"
 BOILER = ["-"] * 5 + ["Speaker#1"] + ["*"] * 4
 ENTITY = "(1)"
+BLIST = [13055, 13996, ] # indices which the converter doesn't like for some reason
+GENRE = "nw" # conll parsing requires some genre, "nw" follows the convention
+             # in winobias, but is probably arbitrary otherwise.
+
+
+def validate_row(row):
+    """
+    run sanity checks on row, return true iff they pass
+    """
+    sent_id = row.sentence_id
+    # we currently have only single word entities and references
+    if row.profession_first_index != row.profession_last_index:
+        logging.debug(f"prof longer than a single word: {sent_id}")
+        return False
+    
+    if row.g_first_index != row.g_last_index:
+        logging.debug(f"pron longer than a single word: {sent_id}")
+        return False
+
+    prof_ind = row.profession_first_index
+    pron_ind = row.g_first_index
+    
+    words = row.sentence_text.lstrip().rstrip().split(" ")
+    prof = row["profession"].lower()
+    pron = row["g"].lower()
+
+
+    # make sure inner references in the line make sense
+    if words[prof_ind].lower() != prof:
+        logging.debug(f"prof doesn't match: {sent_id}")
+        return False
+    if words[pron_ind].lower() != pron:
+        logging.debug(f"pron longer than a single word: {sent_id}")
+        return False
+
+    # don't deal with weird empty tokens
+    if any([(str.isspace(word) or (not word)) for word in words]):
+        return False
+
+    # all tests passed
+    return True
+    
 
 def convert_row_to_conll(row, doc_name):
     """
     get a conll multi-line string representing a csv row
     """
     # find prof_index
-    assert row.profession_first_index == row.profession_last_index
     prof_ind = row.profession_first_index
 
     # find pronoun
-    assert row.g_first_index == row.g_last_index
     pron_ind = row.g_first_index
 
     # construct conll rows
     conll = []
-    words = row.sentence_text.split(" ")
+    words = row.sentence_text.lstrip().rstrip().split(" ")
     prof = row["profession"].lower()
     pron = row["g"].lower()
     for word_ind, word in enumerate(words):
@@ -55,11 +95,9 @@ def convert_row_to_conll(row, doc_name):
         coref_flag = "-"
         
         if word_ind == prof_ind:
-            assert (word_lower == prof)
             coref_flag = ENTITY
 
         elif word_ind == pron_ind:
-            assert (word_lower == pron)
             coref_flag = ENTITY
                    
         metadata = list(map(str, [doc_name, 0, word_ind, word]))
@@ -92,11 +130,29 @@ if __name__ == "__main__":
     df = pd.read_csv(inp_fn)
     top_doc_name = out_fn.stem
 
+    err_cnt = 0
+    
     with open(out_fn, "w", encoding = "utf8") as fout:
         for row_index, row in tqdm(df.iterrows()):
-            doc_name = f"{top_doc_name}/{row_index}"
+            if not validate_row(row):
+                # Something is wrong with this row
+                # recover and continue
+                err_cnt += 1
+                continue
+
+            if row_index in BLIST:
+                err_cnt += 1
+                continue
+            
+            doc_name = f"{GENRE}/{top_doc_name}/{row_index}"
             conll = convert_row_to_conll(row, doc_name)
             fout.write(f"{conll}\n")
+
+    total_rows = len(df)
+    perc = round((err_cnt / total_rows)*100)
+    rows_written = total_rows - err_cnt
+    logging.debug(f"""Wrote a total of {rows_written} to {out_fn}.
+    Filtered out {err_cnt} ({perc}%) rows out of {total_rows} total rows.""")
     
     # End
     logging.info("DONE")
