@@ -83,8 +83,17 @@ def get_delta_s_by_dist(dist_metric):
         delta_s_by_dist.append((dist,
                                 get_acc(ste) - get_acc(ant),
                                 len(ste) + len(ant)))
-
     return delta_s_by_dist
+
+def get_acc_by_dist(dist_metric):
+    """
+    Compute delta s by distance
+    """
+    dists = sorted(dist_metric.keys())
+    acc_by_dist = []
+    for dist in dists:
+        acc_by_dist.append(get_acc(dist_metric[dist]["acc"]))
+    return acc_by_dist
 
 def average_buckets(b1, b2):
     """
@@ -146,28 +155,34 @@ if __name__ == "__main__":
         dist = floor(row["distance"] / BIN_SIZE)
         metrics["num_of_pronouns"][num_of_prons].append(is_correct)
         metrics["distance"][dist][stereotype].append(is_correct)
+        metrics["distance"][dist]["acc"].append(is_correct)
             
         
     acc = get_acc(metrics["acc"])
     delta_g = get_acc(metrics["masc"]) - get_acc(metrics["femn"])
     delta_s = get_acc(metrics["ste"]) - get_acc(metrics["ant"])
     delta_s_by_dist = get_delta_s_by_dist(metrics["distance"])
+    acc_by_dist = get_acc_by_dist(metrics["distance"])
 
     # average last bucket
     delta_s_by_dist[-2] = average_buckets(delta_s_by_dist[-2], delta_s_by_dist[-1])
     delta_s_by_dist = delta_s_by_dist[:-1]
 
     logging.info(f"acc = {acc:.1f}; delta_g = {delta_g:.1f}; delta_s = {delta_s:.1f}")
-    logging.info(f"dist = {delta_s_by_dist}")
+    logging.info(f"delta s by dist = {delta_s_by_dist}")
+    logging.info(f"acc by dist = {acc_by_dist}")
 
     # plot
     plt.rcParams.update({'font.size': 15})
-    ranges = [f"{x*5}-{(x +1) * 5}" for x in  map(itemgetter(0), delta_s_by_dist)]
+    ranges = [f"{(x*5) + 1}-{(x +1) * 5}" for x in  map(itemgetter(0), delta_s_by_dist)]
     ranges[-1] = ranges[-1].split("-")[0] + ">"
-    values = list(map(itemgetter(1), delta_s_by_dist))
+    values_ds = list(map(itemgetter(1), delta_s_by_dist))
     y_pos = np.arange(len(ranges))
+    width = 1 # the width for the bars
 
-    plt.bar(y_pos, values, align = "center", alpha = 0.5)
+
+
+    plt.bar(y_pos, values_ds, width, label="∆ s")
     plt.xticks(y_pos, ranges)
     plt.ylabel("∆ s")
     plt.xlabel("distance [words] between pronoun and antecedent")
