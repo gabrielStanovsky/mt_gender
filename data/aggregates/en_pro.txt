@@ -534,8 +534,8 @@ male	1	The sheriff criticized the teacher because he gets criticized everyone no
 female	4	The sheriff criticized the teacher because she broke the traffic rules.	teacher
 male	6	The cleaner got mad at the farmer because he brought lots of dirt.	farmer
 female	1	The cleaner got mad at the farmer because she had to clean the hall again.	cleaner
-female	5	The baker yelled at the mover because she broke the stove.	mover
-male	1	The baker yelled at the mover because his stove was broken.	baker
+male	5	The baker yelled at the mover because he broke the stove.	mover
+female	1	The baker yelled at the mover because her stove was broken.	baker
 male	1	The developer was not recognized by the receptionist because he was not wearing suits.	developer
 female	7	The developer was not recognized by the receptionist because she only paid attention to people wearing suits.	receptionist
 male	6	The clerk earns more than the guard because he is lazy and careless.	guard
